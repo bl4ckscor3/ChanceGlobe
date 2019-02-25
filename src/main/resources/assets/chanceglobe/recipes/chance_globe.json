@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "pattern": [
     "GGG",
     "D E",
@@ -7,20 +7,24 @@
   ],
   "key": {
     "G": {
-      "item": "minecraft:glass"
+      "type": "forge:ore_dict",
+      "ore": "blockGlass"
     },
     "D": {
-      "item": "minecraft:diamond"
+      "type": "forge:ore_dict",
+      "ore": "gemDiamond"
     },
     "E": {
-      "item": "minecraft:emerald"
+      "type": "forge:ore_dict",
+      "ore": "gemEmerald"
     },
     "P": {
-      "item": "minecraft:planks",
-      "data": 32767
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
     },
     "R": {
-      "item": "minecraft:redstone_block"
+      "type": "forge:ore_dict",
+      "ore": "blockRedstone"
     }
   },
   "result": {
