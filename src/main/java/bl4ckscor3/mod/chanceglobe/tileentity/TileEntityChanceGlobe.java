@@ -1,0 +1,73 @@
+package bl4ckscor3.mod.chanceglobe.tileentity;
+
+import java.util.Random;
+
+import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ITickable;
+
+public class TileEntityChanceGlobe extends TileEntity implements ITickable
+{
+	public static final Random random = new Random(System.currentTimeMillis());
+	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes
+	public ItemStack serverItem = ItemStack.EMPTY; //will be dropped or placed
+	public final int secondsUntilDrop = 10;
+	public int tickToDrop = secondsUntilDrop * 20;
+	public int ticksUntilDrop = 0;
+	public int ticksUntilChange = getNextChangeTick(ticksUntilDrop);
+
+	@Override
+	public void update()
+	{
+		if(world.isRemote) //client logic
+		{
+			if(ticksUntilChange == 0 || clientItem.isEmpty())
+			{
+				ticksUntilChange = getNextChangeTick(ticksUntilDrop);
+				clientItem = ChanceGlobe.BLOCKS_AND_ITEMS.get(random.nextInt(ChanceGlobe.BLOCKS_AND_ITEMS.size()));
+			}
+			else
+				ticksUntilChange--;
+
+			if(ticksUntilDrop != tickToDrop)
+				ticksUntilDrop++;
+		}
+		else //server logic
+		{
+			if(serverItem.isEmpty())
+				serverItem = ChanceGlobe.BLOCKS_AND_ITEMS.get(random.nextInt(ChanceGlobe.BLOCKS_AND_ITEMS.size()));
+
+			if(ticksUntilDrop++ == tickToDrop)
+			{
+				world.destroyBlock(pos, false);
+
+				if(serverItem.getItem() instanceof ItemBlock)
+					world.setBlockState(pos, ((ItemBlock)serverItem.getItem()).getBlock().getStateFromMeta(serverItem.getMetadata()));
+				else
+					Block.spawnAsEntity(world, pos, serverItem);
+			}
+		}
+	}
+
+	/**
+	 * Gets the item currently being display
+	 * @return The currently displayed item as a 1-sized ItemStack
+	 */
+	public ItemStack getClientItem()
+	{
+		return clientItem;
+	}
+
+	/**
+	 * Gets the next tick the item should change based on the remaining ticks until the globe drops the item. Used to speed up the item changing towards the end.
+	 * @param remainingTicksToDrop The amount of ticks until the globe drops the item
+	 * @return The amount of ticks until the next time the item in the display will change
+	 */
+	public int getNextChangeTick(int remainingTicksToDrop)
+	{
+		return (int)(Math.pow(remainingTicksToDrop / 20 - secondsUntilDrop, 2) / 2.5); //a parabola with f(x)=0 for x=secondsUntilDrop*20
+	}
+}
