@@ -3,6 +3,7 @@ package bl4ckscor3.mod.chanceglobe.tileentity;
 import java.util.Random;
 
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
+import bl4ckscor3.mod.chanceglobe.Configuration;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -14,8 +15,8 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickable
 	public static final Random random = new Random(System.currentTimeMillis());
 	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes
 	public ItemStack serverItem = ItemStack.EMPTY; //will be dropped or placed
-	public final int secondsUntilDrop = 10;
-	public int tickToDrop = secondsUntilDrop * 20;
+	public final double secondsUntilDrop = 10 * Configuration.durationMuliplier;
+	public double tickToDrop = secondsUntilDrop * 20;
 	public int ticksUntilDrop = 0;
 	public int ticksUntilChange = getNextChangeTick(ticksUntilDrop);
 

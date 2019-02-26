@@ -3,6 +3,7 @@ package bl4ckscor3.mod.chanceglobe;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.common.config.Config.Name;
+import net.minecraftforge.common.config.Config.RangeDouble;
 import net.minecraftforge.common.config.Config.RangeInt;
 
 @Config(modid=ChanceGlobe.MODID)
@@ -37,4 +38,8 @@ public class Configuration
 			"minecraft:command_block_minecart",
 			"minecraft:knowledge_book"
 	};
+	@Name("duration_muliplier")
+	@Comment("The default duration until a block gets placed/an item drops is 10 seconds. With this multipler, you can change the timing. E.g. setting the value to 2 will make the duration twice as long.")
+	@RangeDouble(min=Double.MIN_VALUE, max=Double.MAX_VALUE)
+	public static double durationMuliplier = 1.0D;
 }
