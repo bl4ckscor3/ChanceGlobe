@@ -23,6 +23,9 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickable
 	@Override
 	public void update()
 	{
+		if(ChanceGlobe.BLOCKS_AND_ITEMS.size() <= 0)
+			return;
+
 		if(world.isRemote) //client logic
 		{
 			if(ticksUntilChange == 0 || clientItem.isEmpty())
