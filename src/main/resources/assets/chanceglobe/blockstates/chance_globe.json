@@ -1,7 +1,7 @@
 {
     "variants": {
-        "normal": [
-            { "model": "chanceglobe:chance_globe" }
+        "": [
+            { "model": "chanceglobe:block/chance_globe" }
         ]
     }
 }

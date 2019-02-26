@@ -1,45 +1,66 @@
 package bl4ckscor3.mod.chanceglobe;
 
-import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.Config.Comment;
-import net.minecraftforge.common.config.Config.Name;
-import net.minecraftforge.common.config.Config.RangeDouble;
-import net.minecraftforge.common.config.Config.RangeInt;
+import java.util.List;
 
-@Config(modid=ChanceGlobe.MODID)
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.google.common.collect.Lists;
+
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+
 public class Configuration
 {
-	@Name("enable_filter")
-	@Comment("Enable black- or whitelisting items and blocks")
-	public static boolean enableFilter = true;
-	@Name("filter_mode")
-	@Comment("Set to 0 for blacklist (all blocks/items EXCEPT the ones listed will be used for randomization), 1 for whitelist (only the blocks/items listed will be used for randomization)." + " " +
-			"Make sure to set enable_filter to true if you want to use the lists.")
-	@RangeInt(min=0, max=1)
-	public static int filterMode = 0;
-	@Name("filtered_blocks")
-	@Comment("These blocks will be filtered if enable_filter is set to true. Whether to use white- or blacklisting is defined by the filter_mode option." + " " +
-			"Use the block's registry name. E.g. to filter grass, use minecraft:grass")
-	public static String[] filteredBlocks = {
-			"minecraft:barrier",
-			"minecraft:bedrock",
-			"minecraft:dragon_egg",
-			"minecraft:chain_command_block",
-			"minecraft:command_block",
-			"minecraft:mob_spawner",
-			"minecraft:repeating_command_block",
-			"minecraft:structure_block",
-			"minecraft:structure_void"
-	};
-	@Name("filtered_items")
-	@Comment("These items will be filtered if enable_filter is set to true. Whether to use white- or blacklisting is defined by the filter_mode option." + " " +
-			"Use the item's registry name. E.g. to filter sticks, use minecraft:stick")
-	public static String[] filteredItems = {
-			"minecraft:command_block_minecart",
-			"minecraft:knowledge_book"
-	};
-	@Name("duration_muliplier")
-	@Comment("The default duration until a block gets placed/an item drops is 10 seconds. With this multipler, you can change the timing. E.g. setting the value to 2 will make the duration twice as long.")
-	@RangeDouble(min=Double.MIN_VALUE, max=Double.MAX_VALUE)
-	public static double durationMuliplier = 1.0D;
+	public static final ForgeConfigSpec CONFIG_SPEC;
+	public static final Configuration CONFIG;
+
+	public final BooleanValue enableFilter;
+	public final IntValue filterMode;
+	public final ConfigValue<List<? extends String>> filteredBlocks;
+	public final ConfigValue<List<? extends String>> filteredItems;
+	public final DoubleValue durationMuliplier;
+
+	static
+	{
+		Pair<Configuration,ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Configuration::new);
+
+		CONFIG_SPEC = specPair.getRight();
+		CONFIG = specPair.getLeft();
+	}
+
+	Configuration(ForgeConfigSpec.Builder builder)
+	{
+		enableFilter = builder
+				.comment("Enable black- or whitelisting items and blocks")
+				.define("enable_filter", true);
+		filterMode = builder
+				.comment("Set to 0 for blacklist (all blocks/items EXCEPT the ones listed will be used for randomization), 1 for whitelist (only the blocks/items listed will be used for randomization).")
+				.comment("Make sure to set enable_filter to true if you want to use the lists.")
+				.defineInRange("filter_mode", 0, 0, 1);
+		filteredBlocks = builder
+				.comment("These blocks will be filtered if enable_filter is set to true. Whether to use white- or blacklisting is defined by the filter_mode option.")
+				.comment("Use the block's registry name. E.g. to filter grass, use minecraft:grass")
+				.defineList("filtered_blocks", Lists.newArrayList(
+						"minecraft:barrier",
+						"minecraft:bedrock",
+						"minecraft:dragon_egg",
+						"minecraft:chain_command_block",
+						"minecraft:command_block",
+						"minecraft:spawner",
+						"minecraft:repeating_command_block",
+						"minecraft:structure_block",
+						"minecraft:structure_void"), e -> e instanceof String);
+		filteredItems = builder
+				.comment("These items will be filtered if enable_filter is set to true. Whether to use white- or blacklisting is defined by the filter_mode option.")
+				.comment("Use the item's registry name. E.g. to filter sticks, use minecraft:stick")
+				.defineList("filtered_items", Lists.newArrayList(
+						"minecraft:command_block_minecart",
+						"minecraft:knowledge_book"), e -> e instanceof String);
+		durationMuliplier = builder
+				.comment("The default duration until a block gets placed/an item drops is 10 seconds. With this multipler, you can change the timing. E.g. setting the value to 2 will make the duration twice as long.")
+				.defineInRange("duration_multiplier", 1.0D, Double.MIN_VALUE, Double.MAX_VALUE);
+	}
 }

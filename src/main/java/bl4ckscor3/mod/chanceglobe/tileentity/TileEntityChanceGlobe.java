@@ -15,13 +15,18 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickable
 	public static final Random random = new Random(System.currentTimeMillis());
 	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes
 	public ItemStack serverItem = ItemStack.EMPTY; //will be dropped or placed
-	public final double secondsUntilDrop = 10 * Configuration.durationMuliplier;
+	public final double secondsUntilDrop = 10 * Configuration.CONFIG.durationMuliplier.get();
 	public double tickToDrop = secondsUntilDrop * 20;
 	public int ticksUntilDrop = 0;
 	public int ticksUntilChange = getNextChangeTick(ticksUntilDrop);
 
+	public TileEntityChanceGlobe()
+	{
+		super(ChanceGlobe.teTypeGlobe);
+	}
+
 	@Override
-	public void update()
+	public void tick()
 	{
 		if(ChanceGlobe.BLOCKS_AND_ITEMS.size() <= 0)
 			return;
@@ -49,7 +54,7 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickable
 				world.destroyBlock(pos, false);
 
 				if(serverItem.getItem() instanceof ItemBlock)
-					world.setBlockState(pos, ((ItemBlock)serverItem.getItem()).getBlock().getStateFromMeta(serverItem.getMetadata()));
+					world.setBlockState(pos, ((ItemBlock)serverItem.getItem()).getBlock().getDefaultState());
 				else
 					Block.spawnAsEntity(world, pos, serverItem);
 			}

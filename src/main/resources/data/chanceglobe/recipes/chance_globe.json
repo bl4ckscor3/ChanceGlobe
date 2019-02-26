@@ -1,0 +1,29 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "GGG",
+    "D E",
+    "PRP"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "D": {
+      "tag": "forge:gems/diamond"
+    },
+    "E": {
+      "tag": "forge:gems/emerald"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    },
+    "R": {
+      "tag": "forge:storage_blocks/redstone"
+    }
+  },
+  "result": {
+    "item": "chanceglobe:chance_globe",
+    "count": 5
+  }
+}
