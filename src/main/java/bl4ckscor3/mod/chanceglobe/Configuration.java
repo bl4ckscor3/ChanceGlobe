@@ -21,7 +21,8 @@ public class Configuration
 	public final IntValue filterMode;
 	public final ConfigValue<List<? extends String>> filteredBlocks;
 	public final ConfigValue<List<? extends String>> filteredItems;
-	public final DoubleValue durationMuliplier;
+	public final ConfigValue<List<? extends String>> filteredMods;
+	public final DoubleValue durationMultiplier;
 
 	static
 	{
@@ -59,7 +60,10 @@ public class Configuration
 				.defineList("filtered_items", Lists.newArrayList(
 						"minecraft:command_block_minecart",
 						"minecraft:knowledge_book"), e -> e instanceof String);
-		durationMuliplier = builder
+		filteredMods = builder
+				.comment("These mods will be filtered according to filter_mode if enable_filter is set to true. This list contains modids.")
+				.defineList("filtered_mods", Lists.newArrayList(), e -> e instanceof String);
+		durationMultiplier = builder
 				.comment("The default duration until a block gets placed/an item drops is 10 seconds. With this multipler, you can change the timing. E.g. setting the value to 2 will make the duration twice as long.")
 				.defineInRange("duration_multiplier", 1.0D, Double.MIN_VALUE, Double.MAX_VALUE);
 	}

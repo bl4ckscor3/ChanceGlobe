@@ -15,7 +15,7 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickable
 	public static final Random random = new Random(System.currentTimeMillis());
 	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes
 	public ItemStack serverItem = ItemStack.EMPTY; //will be dropped or placed
-	public final double secondsUntilDrop = 10 * Configuration.CONFIG.durationMuliplier.get();
+	public final double secondsUntilDrop = 10 * Configuration.CONFIG.durationMultiplier.get();
 	public double tickToDrop = secondsUntilDrop * 20;
 	public int ticksUntilDrop = 0;
 	public int ticksUntilChange = getNextChangeTick(ticksUntilDrop);

@@ -93,9 +93,9 @@ public class ChanceGlobe
 				switch(Configuration.CONFIG.filterMode.get())
 				{
 					//blacklist
-					case 0: if(Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString())) continue blockLoop; break;
+					case 0: if(Configuration.CONFIG.filteredMods.get().contains(block.getRegistryName().getNamespace()) || Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString())) continue blockLoop; break;
 					//whitelist
-					case 1: if(!Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString())) continue blockLoop; break;
+					case 1: if(!Configuration.CONFIG.filteredMods.get().contains(block.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString())) continue blockLoop; break;
 				}
 			}
 
@@ -112,9 +112,9 @@ public class ChanceGlobe
 				switch(Configuration.CONFIG.filterMode.get())
 				{
 					//blacklist
-					case 0: if(Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString())) continue itemLoop; break;
+					case 0: if(Configuration.CONFIG.filteredMods.get().contains(item.getRegistryName().getNamespace()) || Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString())) continue itemLoop; break;
 					//whitelist
-					case 1: if(!Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString())) continue itemLoop; break;
+					case 1: if(!Configuration.CONFIG.filteredMods.get().contains(item.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString())) continue itemLoop; break;
 				}
 			}
 
