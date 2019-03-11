@@ -40,7 +40,7 @@ public class ChanceGlobe
 {
 	public static final String MODID = "chanceglobe";
 	public static final String NAME = "Chance Globe";
-	public static final String VERSION = "v1.1";
+	public static final String VERSION = "v1.2";
 	public static final String MC_VERSION = "1.12.2";
 	@SidedProxy(clientSide = "bl4ckscor3.mod.chanceglobe.network.ClientProxy", serverSide = "bl4ckscor3.mod.chanceglobe.network.ServerProxy")
 	public static IProxy proxy;
@@ -103,6 +103,7 @@ public class ChanceGlobe
 		NonNullList<ItemStack> temp = NonNullList.create();
 		List<String> filteredBlocks = Arrays.asList(Configuration.filteredBlocks);
 		List<String> filteredItems = Arrays.asList(Configuration.filteredItems);
+		List<String> filteredMods = Arrays.asList(Configuration.filteredMods);
 
 		BLOCKS_AND_ITEMS.clear();
 
@@ -113,9 +114,9 @@ public class ChanceGlobe
 				switch(Configuration.filterMode)
 				{
 					//blacklist
-					case 0: if(filteredBlocks.contains(block.getRegistryName().toString())) continue blockLoop; break;
+					case 0: if(filteredMods.contains(block.getRegistryName().getNamespace()) || filteredBlocks.contains(block.getRegistryName().toString())) continue blockLoop; break;
 					//whitelist
-					case 1: if(!filteredBlocks.contains(block.getRegistryName().toString())) continue blockLoop; break;
+					case 1: if(!filteredMods.contains(block.getRegistryName().getNamespace()) && !filteredBlocks.contains(block.getRegistryName().toString())) continue blockLoop; break;
 				}
 			}
 
@@ -145,9 +146,9 @@ public class ChanceGlobe
 				switch(Configuration.filterMode)
 				{
 					//blacklist
-					case 0: if(filteredItems.contains(item.getRegistryName().toString())) continue itemLoop; break;
+					case 0: if(filteredMods.contains(item.getRegistryName().getNamespace()) || filteredItems.contains(item.getRegistryName().toString())) continue itemLoop; break;
 					//whitelist
-					case 1: if(!filteredItems.contains(item.getRegistryName().toString())) continue itemLoop; break;
+					case 1: if(!filteredMods.contains(item.getRegistryName().getNamespace()) && !filteredItems.contains(item.getRegistryName().toString())) continue itemLoop; break;
 				}
 			}
 
