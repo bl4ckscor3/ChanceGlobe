@@ -64,7 +64,7 @@ public class Configuration
 				.comment("These mods will be filtered according to filter_mode if enable_filter is set to true. This list contains modids.")
 				.defineList("filtered_mods", Lists.newArrayList(), e -> e instanceof String);
 		durationMultiplier = builder
-				.comment("The default duration until a block gets placed/an item drops is 10 seconds. With this multipler, you can change the timing. E.g. setting the value to 2 will make the duration twice as long.")
+				.comment("The default duration until a block gets placed/an item drops is 10 seconds. With this multiplier, you can change the timing. E.g. setting the value to 2 will make the duration twice as long (20 seconds).")
 				.defineInRange("duration_multiplier", 1.0D, Double.MIN_VALUE, Double.MAX_VALUE);
 	}
 }
