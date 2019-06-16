@@ -1,6 +1,7 @@
 # Chance Globe Changelog
 
 ### v1.2.2
+- Add Chinese translation (Thanks xuyu0v0!)
 - Fix the mod not starting on servers
 
 ### v1.2.1
