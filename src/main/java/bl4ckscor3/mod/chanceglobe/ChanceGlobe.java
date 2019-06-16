@@ -3,22 +3,18 @@ package bl4ckscor3.mod.chanceglobe;
 import java.util.Collections;
 
 import bl4ckscor3.mod.chanceglobe.blocks.BlockChanceGlobe;
-import bl4ckscor3.mod.chanceglobe.renderer.TileEntityChanceGlobeRenderer;
 import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
 import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -40,7 +36,6 @@ public class ChanceGlobe
 
 	public ChanceGlobe()
 	{
-		MinecraftForge.EVENT_BUS.addListener(this::onModelRegistry);
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
 	}
 
@@ -53,18 +48,13 @@ public class ChanceGlobe
 	@SubscribeEvent
 	public static void onRegistryEventRegisterTileEntityType(RegistryEvent.Register<TileEntityType<?>> event)
 	{
-		teTypeGlobe = TileEntityType.register(CHANCE_GLOBE.getRegistryName().toString(), TileEntityType.Builder.create(TileEntityChanceGlobe::new));
+		event.getRegistry().register(teTypeGlobe = (TileEntityType<TileEntityChanceGlobe>)TileEntityType.Builder.<TileEntityChanceGlobe>create(TileEntityChanceGlobe::new, CHANCE_GLOBE).build(null).setRegistryName(CHANCE_GLOBE.getRegistryName()));
 	}
 
 	@SubscribeEvent
 	public static void onRegistryEventRegisterItem(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().register(new ItemBlock(ChanceGlobe.CHANCE_GLOBE, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(CHANCE_GLOBE.getRegistryName()));
-	}
-
-	public void onModelRegistry(ModelRegistryEvent event)
-	{
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChanceGlobe.class, new TileEntityChanceGlobeRenderer());
+		event.getRegistry().register(new BlockItem(ChanceGlobe.CHANCE_GLOBE, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(CHANCE_GLOBE.getRegistryName()));
 	}
 
 	@SubscribeEvent
@@ -104,7 +94,7 @@ public class ChanceGlobe
 
 		itemLoop: for(Item item : ForgeRegistries.ITEMS)
 		{
-			if(item instanceof ItemBlock) //blocks were already added
+			if(item instanceof BlockItem) //blocks were already added
 				continue;
 
 			if(Configuration.CONFIG.enableFilter.get())

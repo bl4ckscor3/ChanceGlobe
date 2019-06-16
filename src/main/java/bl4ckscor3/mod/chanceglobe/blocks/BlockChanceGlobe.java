@@ -3,17 +3,16 @@ package bl4ckscor3.mod.chanceglobe.blocks;
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
 
 public class BlockChanceGlobe extends Block
 {
@@ -62,21 +61,9 @@ public class BlockChanceGlobe extends Block
 	}
 
 	@Override
-	public VoxelShape getShape(IBlockState state, IBlockReader source, BlockPos pos)
+	public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext ctx)
 	{
 		return SHAPE;
-	}
-
-	@Override
-	public Item getItemDropped(IBlockState state, World world, BlockPos pos, int fortune)
-	{
-		return asItem();
-	}
-
-	@Override
-	public boolean isFullCube(IBlockState state)
-	{
-		return false;
 	}
 
 	@Override
@@ -86,13 +73,13 @@ public class BlockChanceGlobe extends Block
 	}
 
 	@Override
-	public boolean hasTileEntity(IBlockState state)
+	public boolean hasTileEntity(BlockState state)
 	{
 		return true;
 	}
 
 	@Override
-	public TileEntity createTileEntity(IBlockState state, IBlockReader world)
+	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileEntityChanceGlobe();
 	}

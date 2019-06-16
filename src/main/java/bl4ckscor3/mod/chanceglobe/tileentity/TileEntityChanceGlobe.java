@@ -5,12 +5,12 @@ import java.util.Random;
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.Configuration;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ITickable;
 
-public class TileEntityChanceGlobe extends TileEntity implements ITickable
+public class TileEntityChanceGlobe extends TileEntity implements ITickableTileEntity
 {
 	public static final Random random = new Random(System.currentTimeMillis());
 	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes
@@ -53,8 +53,8 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickable
 			{
 				world.destroyBlock(pos, false);
 
-				if(serverItem.getItem() instanceof ItemBlock)
-					world.setBlockState(pos, ((ItemBlock)serverItem.getItem()).getBlock().getDefaultState());
+				if(serverItem.getItem() instanceof BlockItem)
+					world.setBlockState(pos, ((BlockItem)serverItem.getItem()).getBlock().getDefaultState());
 				else
 					Block.spawnAsEntity(world, pos, serverItem);
 			}

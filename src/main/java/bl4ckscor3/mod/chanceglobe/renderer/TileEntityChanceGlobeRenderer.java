@@ -2,13 +2,14 @@ package bl4ckscor3.mod.chanceglobe.renderer;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
-import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraftforge.client.ForgeHooksClient;
 
@@ -32,7 +33,7 @@ public class TileEntityChanceGlobeRenderer extends TileEntityRenderer<TileEntity
 		GlStateManager.scaled(0.4D, 0.4D, 0.4D);
 		GlStateManager.rotatef((te.getWorld().getWorldInfo().getGameTime() + partialTicks) * 2.9F, 0.0F, 1.0F, 0.0F);
 		model = ForgeHooksClient.handleCameraTransforms(model, TransformType.GROUND, false);
-		Minecraft.getInstance().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		Minecraft.getInstance().getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
 		Minecraft.getInstance().getItemRenderer().renderItem(te.getClientItem(), model);
 		GlStateManager.popMatrix();
 		GlStateManager.disableRescaleNormal();
