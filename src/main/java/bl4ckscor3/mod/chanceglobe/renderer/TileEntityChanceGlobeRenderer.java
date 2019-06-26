@@ -16,7 +16,7 @@ import net.minecraftforge.client.ForgeHooksClient;
 public class TileEntityChanceGlobeRenderer extends TileEntityRenderer<TileEntityChanceGlobe>
 {
 	@Override
-	public void func_199341_a(TileEntityChanceGlobe te, double x, double y, double z, float partialTicks, int destroyStage)
+	public void render(TileEntityChanceGlobe te, double x, double y, double z, float partialTicks, int destroyStage)
 	{
 		if(te.getClientItem().isEmpty())
 			return;
