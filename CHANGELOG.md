@@ -1,5 +1,8 @@
 # Chance Globe Changelog
 
+### v1.2.2
+- Fix the mod not starting on servers
+
 ### v1.2.1
 - Fix config comments not showing up completely
 

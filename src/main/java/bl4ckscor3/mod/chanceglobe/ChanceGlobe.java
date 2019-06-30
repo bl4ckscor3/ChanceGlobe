@@ -3,7 +3,6 @@ package bl4ckscor3.mod.chanceglobe;
 import java.util.Collections;
 
 import bl4ckscor3.mod.chanceglobe.blocks.BlockChanceGlobe;
-import bl4ckscor3.mod.chanceglobe.renderer.TileEntityChanceGlobeRenderer;
 import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -16,12 +15,10 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
@@ -42,13 +39,6 @@ public class ChanceGlobe
 	{
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
 	}
-
-	@SubscribeEvent
-	public static void onFMLClientSetup(FMLClientSetupEvent event)
-	{
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChanceGlobe.class, new TileEntityChanceGlobeRenderer());
-	}
-
 
 	@SubscribeEvent
 	public static void onRegistryEventRegisterBlock(RegistryEvent.Register<Block> event)
