@@ -40,7 +40,7 @@ public class ChanceGlobe
 {
 	public static final String MODID = "chanceglobe";
 	public static final String NAME = "Chance Globe";
-	public static final String VERSION = "v1.2";
+	public static final String VERSION = "v1.2.3";
 	public static final String MC_VERSION = "1.12.2";
 	@SidedProxy(clientSide = "bl4ckscor3.mod.chanceglobe.network.ClientProxy", serverSide = "bl4ckscor3.mod.chanceglobe.network.ServerProxy")
 	public static IProxy proxy;
