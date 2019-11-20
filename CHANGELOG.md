@@ -2,6 +2,7 @@
 
 ## v1.3
 - The Chance Globe is now waterloggable
+- Any glass can now be used in the Chance Globe's recipe
 
 ### v1.2.3
 - Add Bulgarian translation (Thanks InvisibleWoman!)
