@@ -6,7 +6,7 @@ authors="bl4ckscor3"
 
 [[mods]] #mandatory
 modId="chanceglobe" #mandatory
-version="v1.2.3" #mandatory
+version="v1.3" #mandatory
 displayName="Chance Globe" #mandatory
 description='''Spawns a random block or item upon placing it down!''' #mandatory
 

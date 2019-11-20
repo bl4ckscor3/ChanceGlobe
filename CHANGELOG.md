@@ -1,5 +1,8 @@
 # Chance Globe Changelog
 
+## v1.3
+- The Chance Globe is now waterloggable
+
 ### v1.2.3
 - Add Bulgarian translation (Thanks InvisibleWoman!)
 

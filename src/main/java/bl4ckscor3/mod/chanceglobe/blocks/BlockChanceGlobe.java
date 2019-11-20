@@ -4,19 +4,29 @@ import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer.Builder;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 
-public class BlockChanceGlobe extends Block
+public class BlockChanceGlobe extends Block implements IWaterLoggable
 {
 	public static final String NAME = "chance_globe";
+	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final VoxelShape SHAPE;
 
 	static
@@ -58,12 +68,40 @@ public class BlockChanceGlobe extends Block
 		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(5.0F, 10.0F).lightValue(3).sound(SoundType.WOOD));
 
 		setRegistryName(ChanceGlobe.MODID + ":" + NAME);
+		setDefaultState(stateContainer.getBaseState().with(WATERLOGGED, false));
 	}
 
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext ctx)
 	{
 		return SHAPE;
+	}
+
+	@Override
+	public BlockState getStateForPlacement(BlockItemUseContext context)
+	{
+		return getDefaultState().with(WATERLOGGED, context.getWorld().getFluidState(context.getPos()).getFluid() == Fluids.WATER);
+	}
+
+	@Override
+	public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos)
+	{
+		if(state.get(WATERLOGGED))
+			world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+
+		return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+	}
+
+	@Override
+	public IFluidState getFluidState(BlockState state)
+	{
+		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
+	}
+
+	@Override
+	protected void fillStateContainer(Builder<Block, BlockState> builder)
+	{
+		builder.add(WATERLOGGED);
 	}
 
 	@Override
