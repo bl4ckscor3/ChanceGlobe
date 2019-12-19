@@ -14,7 +14,6 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -102,12 +101,6 @@ public class BlockChanceGlobe extends Block implements IWaterLoggable
 	protected void fillStateContainer(Builder<Block, BlockState> builder)
 	{
 		builder.add(WATERLOGGED);
-	}
-
-	@Override
-	public BlockRenderLayer getRenderLayer()
-	{
-		return BlockRenderLayer.CUTOUT;
 	}
 
 	@Override
