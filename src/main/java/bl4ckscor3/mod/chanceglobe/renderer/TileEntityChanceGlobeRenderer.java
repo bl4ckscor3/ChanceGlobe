@@ -12,9 +12,9 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 
 public class TileEntityChanceGlobeRenderer extends TileEntityRenderer<TileEntityChanceGlobe>
 {
-	public TileEntityChanceGlobeRenderer()
+	public TileEntityChanceGlobeRenderer(TileEntityRendererDispatcher terd)
 	{
-		super(TileEntityRendererDispatcher.instance);
+		super(terd);
 	}
 
 	@Override

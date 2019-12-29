@@ -16,7 +16,7 @@ public class ClientReg
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
-		ClientRegistry.bindTileEntityRenderer(ChanceGlobe.teTypeGlobe, new TileEntityChanceGlobeRenderer());
+		ClientRegistry.bindTileEntityRenderer(ChanceGlobe.teTypeGlobe, TileEntityChanceGlobeRenderer::new);
 		RenderTypeLookup.setRenderLayer(ChanceGlobe.CHANCE_GLOBE, RenderType.func_228641_d_());
 	}
 }
