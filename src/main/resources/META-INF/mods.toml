@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[30,)" #mandatory
+loaderVersion="[31,)" #mandatory
 issueTrackerURL="https://github.com/bl4ckscor3/ChanceGlobe/issues"
 displayURL="http://minecraft.curseforge.com/projects/chance-globe"
 authors="bl4ckscor3"
@@ -13,7 +13,7 @@ description='''Spawns a random block or item upon placing it down!''' #mandatory
 [[dependencies.chanceglobe]]
     modId="forge"
     mandatory=true
-    versionRange="[30.0.17,)"
+    versionRange="[31,)"
     ordering="NONE"
     side="BOTH"
 

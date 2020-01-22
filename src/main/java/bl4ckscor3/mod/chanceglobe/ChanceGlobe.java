@@ -14,7 +14,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -65,9 +64,9 @@ public class ChanceGlobe
 	}
 
 	@SubscribeEvent
-	public static void onConfigChanged(OnConfigChangedEvent event)
+	public static void onConfigChanged(ModConfig.Reloading event)
 	{
-		if(event.getModID().equals(ChanceGlobe.MODID))
+		if(event.getConfig().getModId().equals(ChanceGlobe.MODID))
 			generateItemStacks();
 	}
 

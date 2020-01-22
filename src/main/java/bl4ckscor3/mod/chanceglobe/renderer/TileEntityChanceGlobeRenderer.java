@@ -18,15 +18,15 @@ public class TileEntityChanceGlobeRenderer extends TileEntityRenderer<TileEntity
 	}
 
 	@Override
-	public void func_225616_a_(TileEntityChanceGlobe te, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer, int p_225616_5_, int p_225616_6_) //render
+	public void render(TileEntityChanceGlobe te, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer, int p_225616_5_, int p_225616_6_)
 	{
 		if(te.getClientItem().isEmpty())
 			return;
 
 		IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(te.getClientItem(), te.getWorld(), null);
 
-		stack.func_227861_a_(0.5D, 0.5D, 0.5D); //translate
-		stack.func_227862_a_(0.4F, 0.4F, 0.4F); //scale
+		stack.translate(0.5D, 0.5D, 0.5D);
+		stack.scale(0.4F, 0.4F, 0.4F);
 		Minecraft.getInstance().getItemRenderer().func_229111_a_(te.getClientItem(), TransformType.GROUND, false, stack, buffer, p_225616_5_, p_225616_6_, model); //renderItem
 	}
 }
