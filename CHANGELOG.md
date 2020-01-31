@@ -1,7 +1,10 @@
 # Chance Globe Changelog
 
+### v1.3.2
+- Fix a crash
+
 ### v1.3.1
-- Fixed compatibility with Forge 30.0.17+
+- Fix compatibility with Forge 30.0.17+
 
 ## v1.3
 - The Chance Globe is now waterloggable

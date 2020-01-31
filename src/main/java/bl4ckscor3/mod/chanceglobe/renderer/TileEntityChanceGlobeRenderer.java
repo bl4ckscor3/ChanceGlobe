@@ -27,6 +27,6 @@ public class TileEntityChanceGlobeRenderer extends TileEntityRenderer<TileEntity
 
 		stack.translate(0.5D, 0.5D, 0.5D);
 		stack.scale(0.4F, 0.4F, 0.4F);
-		Minecraft.getInstance().getItemRenderer().func_229111_a_(te.getClientItem(), TransformType.GROUND, false, stack, buffer, p_225616_5_, p_225616_6_, model); //renderItem
+		Minecraft.getInstance().getItemRenderer().renderItem(te.getClientItem(), TransformType.GROUND, false, stack, buffer, p_225616_5_, p_225616_6_, model);
 	}
 }

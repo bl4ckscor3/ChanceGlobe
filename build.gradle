@@ -11,14 +11,14 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 
-version = '1.15.2-v1.3.1'
+version = '1.15.2-v1.3.2'
 group = 'bl4ckscor3.mod.chanceglobe'
 archivesBaseName = 'chanceglobe'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200122-1.15.1'
+    mappings channel: 'snapshot', version: '20200130-1.15.1'
 	
     runs {
         client {
@@ -47,16 +47,16 @@ minecraft {
 
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.15.2-31.0.0'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.0.14'
 }
 
 jar {
     manifest {
         attributes(["Specification-Title": "Chance Globe",
                     "Specification-Vendor": "bl4ckscor3",
-                    "Specification-Version": "v1.3.1",
+                    "Specification-Version": "v1.3.2",
                     "Implementation-Title": "Chance Globe",
-                    "Implementation-Version": "v1.3.1",
+                    "Implementation-Version": "v1.3.2",
                     "Implementation-Vendor" :"bl4ckscor3",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }

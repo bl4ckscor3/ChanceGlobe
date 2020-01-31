@@ -115,7 +115,7 @@ public class ChanceGlobe
 		{
 			for(ItemStack bi : BLOCKS_AND_ITEMS)
 			{
-				if(stack.isItemEqual(bi))
+				if(bi == null || stack.isItemEqual(bi))
 					continue outer;
 			}
 
