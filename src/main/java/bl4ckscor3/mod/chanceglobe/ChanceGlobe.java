@@ -72,13 +72,13 @@ public class ChanceGlobe
 
 	private static void generateItemStacks()
 	{
-		NonNullList<ItemStack> temp = NonNullList.create();
-
 		BLOCKS_AND_ITEMS.clear();
 
-		blockLoop: for(Block block : ForgeRegistries.BLOCKS)
+		if(Configuration.CONFIG.enableFilter.get())
 		{
-			if(Configuration.CONFIG.enableFilter.get())
+			NonNullList<ItemStack> temp = NonNullList.create();
+
+			blockLoop: for(Block block : ForgeRegistries.BLOCKS)
 			{
 				switch(Configuration.CONFIG.filterMode.get())
 				{
@@ -87,18 +87,15 @@ public class ChanceGlobe
 					//whitelist
 					case 1: if(!Configuration.CONFIG.filteredMods.get().contains(block.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString())) continue blockLoop; break;
 				}
+
+				temp.add(new ItemStack(block, 1));
 			}
 
-			temp.add(new ItemStack(block, 1));
-		}
-
-		itemLoop: for(Item item : ForgeRegistries.ITEMS)
-		{
-			if(item instanceof BlockItem) //blocks were already added
-				continue;
-
-			if(Configuration.CONFIG.enableFilter.get())
+			itemLoop: for(Item item : ForgeRegistries.ITEMS)
 			{
+				if(item instanceof BlockItem) //blocks were already added
+					continue;
+
 				switch(Configuration.CONFIG.filterMode.get())
 				{
 					//blacklist
@@ -106,22 +103,22 @@ public class ChanceGlobe
 					//whitelist
 					case 1: if(!Configuration.CONFIG.filteredMods.get().contains(item.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString())) continue itemLoop; break;
 				}
+
+				temp.add(new ItemStack(item, 1));
 			}
 
-			temp.add(new ItemStack(item, 1));
-		}
-
-		outer: for(ItemStack stack : temp)
-		{
-			for(ItemStack bi : BLOCKS_AND_ITEMS)
+			outer: for(ItemStack stack : temp)
 			{
-				if(bi == null || stack.isItemEqual(bi))
-					continue outer;
+				for(ItemStack bi : BLOCKS_AND_ITEMS)
+				{
+					if(bi == null || stack.isItemEqual(bi))
+						continue outer;
+				}
+
+				BLOCKS_AND_ITEMS.add(stack);
 			}
 
-			BLOCKS_AND_ITEMS.add(stack);
+			Collections.shuffle(BLOCKS_AND_ITEMS);
 		}
-
-		Collections.shuffle(BLOCKS_AND_ITEMS);
 	}
 }
