@@ -32,7 +32,7 @@ public class ChanceGlobe
 	public static final Block CHANCE_GLOBE = null;
 	@ObjectHolder(MODID + ":" + BlockChanceGlobe.NAME)
 	public static TileEntityType<TileEntityChanceGlobe> teTypeGlobe;
-	public static final NonNullList<ItemStack> BLOCKS_AND_ITEMS = NonNullList.create();
+	public static NonNullList<ItemStack> blocksAndItems = NonNullList.create();
 
 	public ChanceGlobe()
 	{
@@ -64,7 +64,7 @@ public class ChanceGlobe
 	}
 
 	@SubscribeEvent
-	public static void onConfigChanged(ModConfig.Reloading event)
+	public static void onModConfigReloading(ModConfig.Reloading event)
 	{
 		if(event.getConfig().getModId().equals(ChanceGlobe.MODID))
 			generateItemStacks();
@@ -72,7 +72,7 @@ public class ChanceGlobe
 
 	private static void generateItemStacks()
 	{
-		BLOCKS_AND_ITEMS.clear();
+		blocksAndItems = NonNullList.create();
 
 		if(Configuration.CONFIG.enableFilter.get())
 		{
@@ -109,16 +109,16 @@ public class ChanceGlobe
 
 			outer: for(ItemStack stack : temp)
 			{
-				for(ItemStack bi : BLOCKS_AND_ITEMS)
+				for(ItemStack bi : blocksAndItems)
 				{
 					if(bi == null || stack.isItemEqual(bi))
 						continue outer;
 				}
 
-				BLOCKS_AND_ITEMS.add(stack);
+				blocksAndItems.add(stack);
 			}
 
-			Collections.shuffle(BLOCKS_AND_ITEMS);
+			Collections.shuffle(blocksAndItems);
 		}
 	}
 }
