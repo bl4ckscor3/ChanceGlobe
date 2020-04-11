@@ -1,6 +1,9 @@
 package bl4ckscor3.mod.chanceglobe;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import bl4ckscor3.mod.chanceglobe.blocks.BlockChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
@@ -32,7 +35,7 @@ public class ChanceGlobe
 	public static final Block CHANCE_GLOBE = null;
 	@ObjectHolder(MODID + ":" + BlockChanceGlobe.NAME)
 	public static TileEntityType<TileEntityChanceGlobe> teTypeGlobe;
-	public static NonNullList<ItemStack> blocksAndItems = NonNullList.create();
+	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobe()
 	{
@@ -72,7 +75,7 @@ public class ChanceGlobe
 
 	private static void generateItemStacks()
 	{
-		blocksAndItems = NonNullList.create();
+		blocksAndItems = new ArrayList<>();
 
 		if(Configuration.CONFIG.enableFilter.get())
 		{
@@ -118,7 +121,9 @@ public class ChanceGlobe
 				blocksAndItems.add(stack);
 			}
 
+			blocksAndItems = blocksAndItems.stream().filter(stack -> stack != null && !stack.isEmpty()).collect(Collectors.toList());
 			Collections.shuffle(blocksAndItems);
+			blocksAndItems.forEach(stack -> System.out.println(stack));
 		}
 	}
 }

@@ -1,5 +1,8 @@
 # Chance Globe Changelog
 
+### v1.3.4
+- Fix another potential startup crash
+
 ### v1.3.3
 - Fix a potential startup crash
 
