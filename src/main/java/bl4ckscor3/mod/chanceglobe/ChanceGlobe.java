@@ -123,7 +123,6 @@ public class ChanceGlobe
 
 			blocksAndItems = blocksAndItems.stream().filter(stack -> stack != null && !stack.isEmpty()).collect(Collectors.toList());
 			Collections.shuffle(blocksAndItems);
-			blocksAndItems.forEach(stack -> System.out.println(stack));
 		}
 	}
 }
