@@ -1,6 +1,9 @@
 package bl4ckscor3.mod.chanceglobe;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import bl4ckscor3.mod.chanceglobe.blocks.BlockChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
@@ -14,11 +17,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.config.ModConfig.ConfigReloading;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
@@ -33,7 +36,7 @@ public class ChanceGlobe
 	public static final Block CHANCE_GLOBE = null;
 	@ObjectHolder(MODID + ":" + BlockChanceGlobe.NAME)
 	public static TileEntityType<TileEntityChanceGlobe> teTypeGlobe;
-	public static final NonNullList<ItemStack> BLOCKS_AND_ITEMS = NonNullList.create();
+	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobe()
 	{
@@ -65,15 +68,15 @@ public class ChanceGlobe
 	}
 
 	@SubscribeEvent
-	public static void onConfigChanged(OnConfigChangedEvent event)
+	public static void onModConfigReloading(ConfigReloading event)
 	{
-		if(event.getModID().equals(ChanceGlobe.MODID))
+		if(event.getConfig().getModId().equals(ChanceGlobe.MODID))
 			generateItemStacks();
 	}
 
 	private static void generateItemStacks()
 	{
-		BLOCKS_AND_ITEMS.clear();
+		blocksAndItems = new ArrayList<>();
 
 		if(Configuration.CONFIG.enableFilter.get())
 		{
@@ -110,16 +113,17 @@ public class ChanceGlobe
 
 			outer: for(ItemStack stack : temp)
 			{
-				for(ItemStack bi : BLOCKS_AND_ITEMS)
+				for(ItemStack bi : blocksAndItems)
 				{
-					if(stack.isItemEqual(bi))
+					if(bi == null || stack.isItemEqual(bi))
 						continue outer;
 				}
 
-				BLOCKS_AND_ITEMS.add(stack);
+				blocksAndItems.add(stack);
 			}
 
-			Collections.shuffle(BLOCKS_AND_ITEMS);
+			blocksAndItems = blocksAndItems.stream().filter(stack -> stack != null && !stack.isEmpty()).collect(Collectors.toList());
+			Collections.shuffle(blocksAndItems);
 		}
 	}
 }

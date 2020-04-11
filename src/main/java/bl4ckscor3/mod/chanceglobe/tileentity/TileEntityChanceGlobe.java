@@ -28,7 +28,7 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickableTileEn
 	@Override
 	public void tick()
 	{
-		if(ChanceGlobe.BLOCKS_AND_ITEMS.size() <= 0)
+		if(ChanceGlobe.blocksAndItems.size() <= 0)
 			return;
 
 		if(world.isRemote) //client logic
@@ -36,7 +36,7 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickableTileEn
 			if(ticksUntilChange == 0 || clientItem.isEmpty())
 			{
 				ticksUntilChange = getNextChangeTick(ticksUntilDrop);
-				clientItem = ChanceGlobe.BLOCKS_AND_ITEMS.get(random.nextInt(ChanceGlobe.BLOCKS_AND_ITEMS.size()));
+				clientItem = ChanceGlobe.blocksAndItems.get(random.nextInt(ChanceGlobe.blocksAndItems.size()));
 			}
 			else
 				ticksUntilChange--;
@@ -47,7 +47,7 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickableTileEn
 		else //server logic
 		{
 			if(serverItem.isEmpty())
-				serverItem = ChanceGlobe.BLOCKS_AND_ITEMS.get(random.nextInt(ChanceGlobe.BLOCKS_AND_ITEMS.size()));
+				serverItem = ChanceGlobe.blocksAndItems.get(random.nextInt(ChanceGlobe.blocksAndItems.size()));
 
 			if(ticksUntilDrop++ == tickToDrop)
 			{

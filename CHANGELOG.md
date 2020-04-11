@@ -1,5 +1,8 @@
 # Chance Globe Changelog
 
+### v1.3.4
+- Fix some crashes
+
 ## v1.3
 - The Chance Globe is now waterloggable
 - Any glass can now be used in the Chance Globe's recipe
