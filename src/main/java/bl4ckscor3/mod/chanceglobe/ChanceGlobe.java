@@ -113,7 +113,9 @@ public class ChanceGlobe
 
 			outer: for(ItemStack stack : temp)
 			{
-				for(ItemStack bi : blocksAndItems)
+				List<ItemStack> copy = new ArrayList<>(blocksAndItems);
+
+				for(ItemStack bi : copy)
 				{
 					if(bi == null || stack.isItemEqual(bi))
 						continue outer;
