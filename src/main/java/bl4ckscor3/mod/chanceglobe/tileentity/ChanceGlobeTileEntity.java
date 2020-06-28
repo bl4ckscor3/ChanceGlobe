@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileEntityChanceGlobe extends TileEntity implements ITickableTileEntity
+public class ChanceGlobeTileEntity extends TileEntity implements ITickableTileEntity
 {
 	public static final Random random = new Random(System.currentTimeMillis());
 	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes
@@ -20,7 +20,7 @@ public class TileEntityChanceGlobe extends TileEntity implements ITickableTileEn
 	public int ticksUntilDrop = 0;
 	public int ticksUntilChange = getNextChangeTick(ticksUntilDrop);
 
-	public TileEntityChanceGlobe()
+	public ChanceGlobeTileEntity()
 	{
 		super(ChanceGlobe.teTypeGlobe);
 	}

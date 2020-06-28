@@ -2,7 +2,7 @@ package bl4ckscor3.mod.chanceglobe.renderer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
+import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.IBakedModel;
@@ -10,15 +10,15 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms.TransformType;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 
-public class TileEntityChanceGlobeRenderer extends TileEntityRenderer<TileEntityChanceGlobe>
+public class ChanceGlobeTileEntityRenderer extends TileEntityRenderer<ChanceGlobeTileEntity>
 {
-	public TileEntityChanceGlobeRenderer(TileEntityRendererDispatcher terd)
+	public ChanceGlobeTileEntityRenderer(TileEntityRendererDispatcher terd)
 	{
 		super(terd);
 	}
 
 	@Override
-	public void render(TileEntityChanceGlobe te, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer, int p_225616_5_, int p_225616_6_)
+	public void render(ChanceGlobeTileEntity te, float partialTicks, MatrixStack stack, IRenderTypeBuffer buffer, int p_225616_5_, int p_225616_6_)
 	{
 		if(te.getClientItem().isEmpty())
 			return;

@@ -1,6 +1,6 @@
 package bl4ckscor3.mod.chanceglobe;
 
-import bl4ckscor3.mod.chanceglobe.renderer.TileEntityChanceGlobeRenderer;
+import bl4ckscor3.mod.chanceglobe.renderer.ChanceGlobeTileEntityRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,7 +16,7 @@ public class ClientReg
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
-		ClientRegistry.bindTileEntityRenderer(ChanceGlobe.teTypeGlobe, TileEntityChanceGlobeRenderer::new);
+		ClientRegistry.bindTileEntityRenderer(ChanceGlobe.teTypeGlobe, ChanceGlobeTileEntityRenderer::new);
 		RenderTypeLookup.setRenderLayer(ChanceGlobe.CHANCE_GLOBE, RenderType.getCutoutMipped());
 	}
 }
