@@ -7,8 +7,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer.Builder;
@@ -64,7 +64,7 @@ public class BlockChanceGlobe extends Block implements IWaterLoggable
 
 	public BlockChanceGlobe()
 	{
-		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(5.0F, 10.0F).lightValue(3).sound(SoundType.WOOD));
+		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(5.0F, 10.0F).func_235838_a_(state -> 3).sound(SoundType.WOOD));
 
 		setRegistryName(ChanceGlobe.MODID + ":" + NAME);
 		setDefaultState(stateContainer.getBaseState().with(WATERLOGGED, false));
@@ -92,7 +92,7 @@ public class BlockChanceGlobe extends Block implements IWaterLoggable
 	}
 
 	@Override
-	public IFluidState getFluidState(BlockState state)
+	public FluidState getFluidState(BlockState state)
 	{
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
 	}
