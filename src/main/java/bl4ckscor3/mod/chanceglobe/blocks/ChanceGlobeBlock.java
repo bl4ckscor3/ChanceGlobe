@@ -1,7 +1,7 @@
 package bl4ckscor3.mod.chanceglobe.blocks;
 
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
-import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
+import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
@@ -22,7 +22,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 
-public class BlockChanceGlobe extends Block implements IWaterLoggable
+public class ChanceGlobeBlock extends Block implements IWaterLoggable
 {
 	public static final String NAME = "chance_globe";
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -62,7 +62,7 @@ public class BlockChanceGlobe extends Block implements IWaterLoggable
 		SHAPE = returnShape;
 	}
 
-	public BlockChanceGlobe()
+	public ChanceGlobeBlock()
 	{
 		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(5.0F, 10.0F).lightValue(3).sound(SoundType.WOOD));
 
@@ -112,6 +112,6 @@ public class BlockChanceGlobe extends Block implements IWaterLoggable
 	@Override
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
-		return new TileEntityChanceGlobe();
+		return new ChanceGlobeTileEntity();
 	}
 }

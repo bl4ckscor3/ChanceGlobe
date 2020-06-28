@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import bl4ckscor3.mod.chanceglobe.blocks.BlockChanceGlobe;
-import bl4ckscor3.mod.chanceglobe.tileentity.TileEntityChanceGlobe;
+import bl4ckscor3.mod.chanceglobe.blocks.ChanceGlobeBlock;
+import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -31,10 +31,10 @@ public class ChanceGlobe
 {
 	public static final String MODID = "chanceglobe";
 	public static final String NAME = "Chance Globe";
-	@ObjectHolder(MODID + ":" + BlockChanceGlobe.NAME)
+	@ObjectHolder(MODID + ":" + ChanceGlobeBlock.NAME)
 	public static final Block CHANCE_GLOBE = null;
-	@ObjectHolder(MODID + ":" + BlockChanceGlobe.NAME)
-	public static TileEntityType<TileEntityChanceGlobe> teTypeGlobe;
+	@ObjectHolder(MODID + ":" + ChanceGlobeBlock.NAME)
+	public static TileEntityType<ChanceGlobeTileEntity> teTypeGlobe;
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobe()
@@ -45,13 +45,13 @@ public class ChanceGlobe
 	@SubscribeEvent
 	public static void onRegistryEventRegisterBlock(RegistryEvent.Register<Block> event)
 	{
-		event.getRegistry().register(new BlockChanceGlobe());
+		event.getRegistry().register(new ChanceGlobeBlock());
 	}
 
 	@SubscribeEvent
 	public static void onRegistryEventRegisterTileEntityType(RegistryEvent.Register<TileEntityType<?>> event)
 	{
-		event.getRegistry().register(TileEntityType.Builder.<TileEntityChanceGlobe>create(TileEntityChanceGlobe::new, CHANCE_GLOBE).build(null).setRegistryName(CHANCE_GLOBE.getRegistryName()));
+		event.getRegistry().register(TileEntityType.Builder.<ChanceGlobeTileEntity>create(ChanceGlobeTileEntity::new, CHANCE_GLOBE).build(null).setRegistryName(CHANCE_GLOBE.getRegistryName()));
 	}
 
 	@SubscribeEvent
