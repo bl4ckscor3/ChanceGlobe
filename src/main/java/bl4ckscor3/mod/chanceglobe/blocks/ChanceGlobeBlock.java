@@ -64,7 +64,7 @@ public class ChanceGlobeBlock extends Block implements IWaterLoggable
 
 	public ChanceGlobeBlock()
 	{
-		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(5.0F, 10.0F).func_235838_a_(state -> 3).sound(SoundType.WOOD));
+		super(Block.Properties.create(Material.WOOD).hardnessAndResistance(5.0F, 10.0F).setLightLevel(state -> 3).sound(SoundType.WOOD));
 
 		setRegistryName(ChanceGlobe.MODID + ":" + NAME);
 		setDefaultState(stateContainer.getBaseState().with(WATERLOGGED, false));
