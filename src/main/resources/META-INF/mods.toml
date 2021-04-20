@@ -8,7 +8,7 @@ license="GNU GPL v3.0 https://github.com/bl4ckscor3/ChanceGlobe/blob/1.16/LICENS
 	displayName="Chance Globe" #mandatory
 	description='''Spawns a random block or item upon placing it down!''' #mandatory
 	issueTrackerURL="https://github.com/bl4ckscor3/ChanceGlobe/issues"
-	displayURL="http://minecraft.curseforge.com/projects/chance-globe"
+	displayURL="https://www.curseforge.com/minecraft/mc-mods/chance-globe"
 	authors="bl4ckscor3"
 
 [[dependencies.chanceglobe]]

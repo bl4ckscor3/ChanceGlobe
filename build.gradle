@@ -46,9 +46,23 @@ minecraft {
     }
 }
 
-
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.1.6'
+}
+
+processResources {  
+	//replace ${version} in mods.toml
+	inputs.property 'version', project.version
+
+	from(sourceSets.main.resources.srcDirs) {
+		include 'META-INF/mods.toml'
+
+		expand 'version': project.version
+	}
+
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'META-INF/mods.toml'
+	}
 }
 
 jar {
