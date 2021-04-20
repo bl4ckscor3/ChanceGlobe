@@ -1,7 +1,8 @@
 # Chance Globe Changelog
 
 ### v1.3.5
-- Try another fix for a startup crash
+- Fix Chance Globe not working when the enable_filter configuration option is set to false
+- Try another fix for the potential startup crash
 
 ### v1.3.4
 - Fix another potential startup crash
