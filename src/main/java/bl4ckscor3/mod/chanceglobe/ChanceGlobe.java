@@ -3,7 +3,6 @@ package bl4ckscor3.mod.chanceglobe;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import bl4ckscor3.mod.chanceglobe.blocks.ChanceGlobeBlock;
 import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
@@ -75,12 +74,13 @@ public class ChanceGlobe
 
 	private static void generateItemStacks()
 	{
-		blocksAndItems = new ArrayList<>();
+		List<ItemStack> newBlocksAndItems = new ArrayList<>();
 
 		if(Configuration.CONFIG.enableFilter.get())
 		{
 			NonNullList<ItemStack> temp = NonNullList.create();
 
+			//collect all blocks as stacks, respecting filter configs
 			blockLoop: for(Block block : ForgeRegistries.BLOCKS)
 			{
 				switch(Configuration.CONFIG.filterMode.get())
@@ -94,6 +94,7 @@ public class ChanceGlobe
 				temp.add(new ItemStack(block, 1));
 			}
 
+			//collect all items as stacks, respecting filter configs
 			itemLoop: for(Item item : ForgeRegistries.ITEMS)
 			{
 				if(item instanceof BlockItem) //blocks were already added
@@ -110,21 +111,24 @@ public class ChanceGlobe
 				temp.add(new ItemStack(item, 1));
 			}
 
+			//add the previously collected stacks to the resulting list one by one, ignoring any duplicates on the way
 			outer: for(ItemStack stack : temp)
 			{
-				List<ItemStack> copy = new ArrayList<>(blocksAndItems);
+				if(stack == null || stack.isEmpty())
+					continue outer;
 
-				for(ItemStack bi : copy)
+				for(ItemStack bi : newBlocksAndItems)
 				{
 					if(bi == null || stack.isItemEqual(bi))
 						continue outer;
 				}
 
-				blocksAndItems.add(stack);
+				newBlocksAndItems.add(stack);
 			}
 
-			blocksAndItems = blocksAndItems.stream().filter(stack -> stack != null && !stack.isEmpty()).collect(Collectors.toList());
-			Collections.shuffle(blocksAndItems);
+			Collections.shuffle(newBlocksAndItems); //randomize list
+			blocksAndItems.clear(); //clear old collected stacks
+			blocksAndItems.addAll(newBlocksAndItems); //add all newly collected stacks to the list the tile entity pulls from
 		}
 	}
 }
