@@ -76,59 +76,70 @@ public class ChanceGlobe
 	{
 		List<ItemStack> newBlocksAndItems = new ArrayList<>();
 
-		if(Configuration.CONFIG.enableFilter.get())
+		NonNullList<ItemStack> temp = NonNullList.create();
+
+		//collect all blocks as stacks, respecting filter configs
+		blockLoop: for(Block block : ForgeRegistries.BLOCKS)
 		{
-			NonNullList<ItemStack> temp = NonNullList.create();
-
-			//collect all blocks as stacks, respecting filter configs
-			blockLoop: for(Block block : ForgeRegistries.BLOCKS)
+			if(Configuration.CONFIG.enableFilter.get())
 			{
 				switch(Configuration.CONFIG.filterMode.get())
 				{
-					//blacklist
-					case 0: if(Configuration.CONFIG.filteredMods.get().contains(block.getRegistryName().getNamespace()) || Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString())) continue blockLoop; break;
-					//whitelist
-					case 1: if(!Configuration.CONFIG.filteredMods.get().contains(block.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString())) continue blockLoop; break;
+					case 0: //blacklist
+						if(Configuration.CONFIG.filteredMods.get().contains(block.getRegistryName().getNamespace()) || Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString()))
+							continue blockLoop;
+						break;
+					case 1: //whitelist
+						if(!Configuration.CONFIG.filteredMods.get().contains(block.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredBlocks.get().contains(block.getRegistryName().toString()))
+							continue blockLoop;
+						break;
 				}
-
-				temp.add(new ItemStack(block, 1));
 			}
 
-			//collect all items as stacks, respecting filter configs
-			itemLoop: for(Item item : ForgeRegistries.ITEMS)
-			{
-				if(item instanceof BlockItem) //blocks were already added
-					continue;
-
-				switch(Configuration.CONFIG.filterMode.get())
-				{
-					//blacklist
-					case 0: if(Configuration.CONFIG.filteredMods.get().contains(item.getRegistryName().getNamespace()) || Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString())) continue itemLoop; break;
-					//whitelist
-					case 1: if(!Configuration.CONFIG.filteredMods.get().contains(item.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString())) continue itemLoop; break;
-				}
-
-				temp.add(new ItemStack(item, 1));
-			}
-
-			//add the previously collected stacks to the resulting list one by one, ignoring any duplicates on the way
-			outer: for(ItemStack stack : temp)
-			{
-				if(stack == null || stack.isEmpty())
-					continue outer;
-
-				for(ItemStack bi : newBlocksAndItems)
-				{
-					if(bi == null || stack.isItemEqual(bi))
-						continue outer;
-				}
-
-				newBlocksAndItems.add(stack);
-			}
-
-			Collections.shuffle(newBlocksAndItems); //randomize list
-			blocksAndItems.clear(); //clear old collected stacks
-			blocksAndItems.addAll(newBlocksAndItems); //add all newly collected stacks to the list the tile entity pulls from
+			temp.add(new ItemStack(block));
 		}
+
+		//collect all items as stacks, respecting filter configs
+		itemLoop: for(Item item : ForgeRegistries.ITEMS)
+		{
+			if(item instanceof BlockItem) //blocks were already added
+				continue;
+
+			if(Configuration.CONFIG.enableFilter.get())
+			{
+				switch(Configuration.CONFIG.filterMode.get())
+				{
+					case 0: //blacklist
+						if(Configuration.CONFIG.filteredMods.get().contains(item.getRegistryName().getNamespace()) || Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString()))
+							continue itemLoop;
+						break;
+					case 1: //whitelist
+						if(!Configuration.CONFIG.filteredMods.get().contains(item.getRegistryName().getNamespace()) && !Configuration.CONFIG.filteredItems.get().contains(item.getRegistryName().toString()))
+							continue itemLoop;
+						break;
+				}
+			}
+
+			temp.add(new ItemStack(item));
+		}
+
+		//add the previously collected stacks to the resulting list one by one, ignoring any duplicates on the way
+		outer: for(ItemStack stack : temp)
+		{
+			if(stack == null || stack.isEmpty())
+				continue outer;
+
+			for(ItemStack bi : newBlocksAndItems)
+			{
+				if(bi == null || stack.isItemEqual(bi))
+					continue outer;
+			}
+
+			newBlocksAndItems.add(stack);
+		}
+
+		Collections.shuffle(newBlocksAndItems); //randomize list
+		blocksAndItems.clear(); //clear old collected stacks
+		blocksAndItems.addAll(newBlocksAndItems); //add all newly collected stacks to the list the tile entity pulls from
 	}
 }
