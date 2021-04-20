@@ -1,14 +1,14 @@
 modLoader="javafml" #mandatory
 loaderVersion="[31,)" #mandatory
-issueTrackerURL="https://github.com/bl4ckscor3/ChanceGlobe/issues"
-displayURL="http://minecraft.curseforge.com/projects/chance-globe"
-authors="bl4ckscor3"
 
 [[mods]] #mandatory
-modId="chanceglobe" #mandatory
-version="v1.3.4" #mandatory
-displayName="Chance Globe" #mandatory
-description='''Spawns a random block or item upon placing it down!''' #mandatory
+	modId="chanceglobe" #mandatory
+	version="${version}" #mandatory
+	displayName="Chance Globe" #mandatory
+	description='''Spawns a random block or item upon placing it down!''' #mandatory
+	issueTrackerURL="https://github.com/bl4ckscor3/ChanceGlobe/issues"
+	displayURL="https://www.curseforge.com/minecraft/mc-mods/chance-globe"
+	authors="bl4ckscor3"
 
 [[dependencies.chanceglobe]]
     modId="forge"
