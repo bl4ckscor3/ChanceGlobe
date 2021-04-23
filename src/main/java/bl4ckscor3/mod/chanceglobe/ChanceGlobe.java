@@ -75,7 +75,6 @@ public class ChanceGlobe
 	private static void generateItemStacks()
 	{
 		List<ItemStack> newBlocksAndItems = new ArrayList<>();
-
 		NonNullList<ItemStack> temp = NonNullList.create();
 
 		//collect all blocks as stacks, respecting filter configs
