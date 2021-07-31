@@ -23,10 +23,10 @@ public class ChanceGlobeTileEntityRenderer extends TileEntityRenderer<ChanceGlob
 		if(te.getClientItem().isEmpty())
 			return;
 
-		IBakedModel model = Minecraft.getInstance().getItemRenderer().getItemModelWithOverrides(te.getClientItem(), te.getWorld(), null);
+		IBakedModel model = Minecraft.getInstance().getItemRenderer().getModel(te.getClientItem(), te.getLevel(), null);
 
 		stack.translate(0.5D, 0.5D, 0.5D);
 		stack.scale(0.4F, 0.4F, 0.4F);
-		Minecraft.getInstance().getItemRenderer().renderItem(te.getClientItem(), TransformType.GROUND, false, stack, buffer, p_225616_5_, p_225616_6_, model);
+		Minecraft.getInstance().getItemRenderer().render(te.getClientItem(), TransformType.GROUND, false, stack, buffer, p_225616_5_, p_225616_6_, model);
 	}
 }

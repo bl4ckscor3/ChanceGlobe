@@ -50,13 +50,13 @@ public class ChanceGlobe
 	@SubscribeEvent
 	public static void onRegistryEventRegisterTileEntityType(RegistryEvent.Register<TileEntityType<?>> event)
 	{
-		event.getRegistry().register(TileEntityType.Builder.<ChanceGlobeTileEntity>create(ChanceGlobeTileEntity::new, CHANCE_GLOBE).build(null).setRegistryName(CHANCE_GLOBE.getRegistryName()));
+		event.getRegistry().register(TileEntityType.Builder.<ChanceGlobeTileEntity>of(ChanceGlobeTileEntity::new, CHANCE_GLOBE).build(null).setRegistryName(CHANCE_GLOBE.getRegistryName()));
 	}
 
 	@SubscribeEvent
 	public static void onRegistryEventRegisterItem(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().register(new BlockItem(ChanceGlobe.CHANCE_GLOBE, new Item.Properties().group(ItemGroup.MISC)).setRegistryName(CHANCE_GLOBE.getRegistryName()));
+		event.getRegistry().register(new BlockItem(ChanceGlobe.CHANCE_GLOBE, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(CHANCE_GLOBE.getRegistryName()));
 	}
 
 	@SubscribeEvent
@@ -130,7 +130,7 @@ public class ChanceGlobe
 
 			for(ItemStack bi : newBlocksAndItems)
 			{
-				if(bi == null || stack.isItemEqual(bi))
+				if(bi == null || stack.sameItem(bi))
 					continue outer;
 			}
 

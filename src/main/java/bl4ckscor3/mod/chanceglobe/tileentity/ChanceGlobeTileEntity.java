@@ -31,7 +31,7 @@ public class ChanceGlobeTileEntity extends TileEntity implements ITickableTileEn
 		if(ChanceGlobe.blocksAndItems.size() <= 0)
 			return;
 
-		if(world.isRemote) //client logic
+		if(level.isClientSide) //client logic
 		{
 			if(ticksUntilChange == 0 || clientItem.isEmpty())
 			{
@@ -51,12 +51,12 @@ public class ChanceGlobeTileEntity extends TileEntity implements ITickableTileEn
 
 			if(ticksUntilDrop++ == tickToDrop)
 			{
-				world.destroyBlock(pos, false);
+				level.destroyBlock(worldPosition, false);
 
 				if(serverItem.getItem() instanceof BlockItem)
-					world.setBlockState(pos, ((BlockItem)serverItem.getItem()).getBlock().getDefaultState());
+					level.setBlockAndUpdate(worldPosition, ((BlockItem)serverItem.getItem()).getBlock().defaultBlockState());
 				else
-					Block.spawnAsEntity(world, pos, serverItem);
+					Block.popResource(level, worldPosition, serverItem);
 			}
 		}
 	}
