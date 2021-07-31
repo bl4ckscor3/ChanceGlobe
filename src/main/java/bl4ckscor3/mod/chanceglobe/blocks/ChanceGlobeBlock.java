@@ -2,27 +2,27 @@ package bl4ckscor3.mod.chanceglobe.blocks;
 
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer.Builder;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.StateDefinition.Builder;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
 
-public class ChanceGlobeBlock extends Block implements IWaterLoggable
+public class ChanceGlobeBlock extends Block implements SimpleWaterloggedBlock
 {
 	public static final String NAME = "chance_globe";
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -56,7 +56,7 @@ public class ChanceGlobeBlock extends Block implements IWaterLoggable
 
 		for(VoxelShape shape : allShapes)
 		{
-			returnShape = VoxelShapes.or(returnShape, shape);
+			returnShape = Shapes.or(returnShape, shape);
 		}
 
 		SHAPE = returnShape;
@@ -71,19 +71,19 @@ public class ChanceGlobeBlock extends Block implements IWaterLoggable
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader source, BlockPos pos, ISelectionContext ctx)
+	public VoxelShape getShape(BlockState state, BlockGetter source, BlockPos pos, CollisionContext ctx)
 	{
 		return SHAPE;
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context)
+	public BlockState getStateForPlacement(BlockPlaceContext context)
 	{
 		return defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos)
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos facingPos)
 	{
 		if(state.getValue(WATERLOGGED))
 			world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -110,7 +110,7 @@ public class ChanceGlobeBlock extends Block implements IWaterLoggable
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
+	public BlockEntity createTileEntity(BlockState state, BlockGetter world)
 	{
 		return new ChanceGlobeTileEntity();
 	}

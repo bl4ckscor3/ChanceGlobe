@@ -4,13 +4,13 @@ import java.util.Random;
 
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.Configuration;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-public class ChanceGlobeTileEntity extends TileEntity implements ITickableTileEntity
+public class ChanceGlobeTileEntity extends BlockEntity implements TickableBlockEntity
 {
 	public static final Random random = new Random(System.currentTimeMillis());
 	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes

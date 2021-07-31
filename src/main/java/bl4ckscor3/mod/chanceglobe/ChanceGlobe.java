@@ -6,13 +6,13 @@ import java.util.List;
 
 import bl4ckscor3.mod.chanceglobe.blocks.ChanceGlobeBlock;
 import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.NonNullList;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.NonNullList;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -33,7 +33,7 @@ public class ChanceGlobe
 	@ObjectHolder(MODID + ":" + ChanceGlobeBlock.NAME)
 	public static final Block CHANCE_GLOBE = null;
 	@ObjectHolder(MODID + ":" + ChanceGlobeBlock.NAME)
-	public static TileEntityType<ChanceGlobeTileEntity> teTypeGlobe;
+	public static BlockEntityType<ChanceGlobeTileEntity> teTypeGlobe;
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobe()
@@ -48,15 +48,15 @@ public class ChanceGlobe
 	}
 
 	@SubscribeEvent
-	public static void onRegistryEventRegisterTileEntityType(RegistryEvent.Register<TileEntityType<?>> event)
+	public static void onRegistryEventRegisterTileEntityType(RegistryEvent.Register<BlockEntityType<?>> event)
 	{
-		event.getRegistry().register(TileEntityType.Builder.<ChanceGlobeTileEntity>of(ChanceGlobeTileEntity::new, CHANCE_GLOBE).build(null).setRegistryName(CHANCE_GLOBE.getRegistryName()));
+		event.getRegistry().register(BlockEntityType.Builder.<ChanceGlobeTileEntity>of(ChanceGlobeTileEntity::new, CHANCE_GLOBE).build(null).setRegistryName(CHANCE_GLOBE.getRegistryName()));
 	}
 
 	@SubscribeEvent
 	public static void onRegistryEventRegisterItem(RegistryEvent.Register<Item> event)
 	{
-		event.getRegistry().register(new BlockItem(ChanceGlobe.CHANCE_GLOBE, new Item.Properties().tab(ItemGroup.TAB_MISC)).setRegistryName(CHANCE_GLOBE.getRegistryName()));
+		event.getRegistry().register(new BlockItem(ChanceGlobe.CHANCE_GLOBE, new Item.Properties().tab(CreativeModeTab.TAB_MISC)).setRegistryName(CHANCE_GLOBE.getRegistryName()));
 	}
 
 	@SubscribeEvent
