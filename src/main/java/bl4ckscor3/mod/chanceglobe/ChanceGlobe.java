@@ -6,13 +6,13 @@ import java.util.List;
 
 import bl4ckscor3.mod.chanceglobe.blocks.ChanceGlobeBlock;
 import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
@@ -66,7 +67,7 @@ public class ChanceGlobe
 	}
 
 	@SubscribeEvent
-	public static void onModConfigReloading(ModConfig.Reloading event)
+	public static void onModConfigReloading(ModConfigEvent.Reloading event)
 	{
 		if(event.getConfig().getModId().equals(ChanceGlobe.MODID))
 			generateItemStacks();

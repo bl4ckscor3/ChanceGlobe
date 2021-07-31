@@ -2,27 +2,32 @@ package bl4ckscor3.mod.chanceglobe.blocks;
 
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.tileentity.ChanceGlobeTileEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class ChanceGlobeBlock extends Block implements SimpleWaterloggedBlock
+public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 {
 	public static final String NAME = "chance_globe";
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -71,6 +76,12 @@ public class ChanceGlobeBlock extends Block implements SimpleWaterloggedBlock
 	}
 
 	@Override
+	public RenderShape getRenderShape(BlockState state)
+	{
+		return RenderShape.MODEL;
+	}
+
+	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter source, BlockPos pos, CollisionContext ctx)
 	{
 		return SHAPE;
@@ -104,14 +115,14 @@ public class ChanceGlobeBlock extends Block implements SimpleWaterloggedBlock
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state)
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
 	{
-		return true;
+		return new ChanceGlobeTileEntity(pos, state);
 	}
 
 	@Override
-	public BlockEntity createTileEntity(BlockState state, BlockGetter world)
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
 	{
-		return new ChanceGlobeTileEntity();
+		return createTickerHelper(type, ChanceGlobe.teTypeGlobe, level.isClientSide ? ChanceGlobeTileEntity::clientTick : ChanceGlobeTileEntity::serverTick);
 	}
 }
