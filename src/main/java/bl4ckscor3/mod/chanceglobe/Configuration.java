@@ -48,6 +48,7 @@ public class Configuration
 						"minecraft:dragon_egg",
 						"minecraft:chain_command_block",
 						"minecraft:command_block",
+						"minecraft:jigsaw",
 						"minecraft:spawner",
 						"minecraft:repeating_command_block",
 						"minecraft:structure_block",
