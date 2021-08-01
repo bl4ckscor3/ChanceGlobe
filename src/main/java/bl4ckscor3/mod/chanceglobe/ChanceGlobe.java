@@ -30,7 +30,6 @@ import net.minecraftforge.registries.ObjectHolder;
 public class ChanceGlobe
 {
 	public static final String MODID = "chanceglobe";
-	public static final String NAME = "Chance Globe";
 	@ObjectHolder(MODID + ":" + ChanceGlobeBlock.NAME)
 	public static final Block CHANCE_GLOBE = null;
 	@ObjectHolder(MODID + ":" + ChanceGlobeBlock.NAME)

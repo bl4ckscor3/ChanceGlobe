@@ -1,5 +1,8 @@
 # Chance Globe Changelog
 
+### v1.3.6
+- Fix mining the Chance Globe with an axe not being faster
+
 ### v1.3.5
 - Fix Chance Globe not working when the enable_filter configuration option is set to false
 - Try another fix for the potential startup crash
