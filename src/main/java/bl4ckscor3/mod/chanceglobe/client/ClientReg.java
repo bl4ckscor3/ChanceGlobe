@@ -16,7 +16,7 @@ public class ClientReg
 	@SubscribeEvent
 	public static void onFMLClientSetup(FMLClientSetupEvent event)
 	{
-		event.enqueueWork(() ->	BlockEntityRenderers.register(ChanceGlobe.teTypeGlobe, ChanceGlobeTileEntityRenderer::new));
-		ItemBlockRenderTypes.setRenderLayer(ChanceGlobe.CHANCE_GLOBE, RenderType.cutoutMipped());
+		event.enqueueWork(() ->	BlockEntityRenderers.register(ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), ChanceGlobeTileEntityRenderer::new));
+		ItemBlockRenderTypes.setRenderLayer(ChanceGlobe.CHANCE_GLOBE.get(), RenderType.cutoutMipped());
 	}
 }

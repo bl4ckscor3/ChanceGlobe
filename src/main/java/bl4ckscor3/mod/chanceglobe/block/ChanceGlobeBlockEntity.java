@@ -24,7 +24,7 @@ public class ChanceGlobeBlockEntity extends BlockEntity
 
 	public ChanceGlobeBlockEntity(BlockPos pos, BlockState state)
 	{
-		super(ChanceGlobe.teTypeGlobe, pos, state);
+		super(ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), pos, state);
 	}
 
 	public static void clientTick(Level level, BlockPos pos, BlockState state, ChanceGlobeBlockEntity te)

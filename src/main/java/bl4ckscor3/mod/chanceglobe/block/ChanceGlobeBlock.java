@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -21,14 +20,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
 {
-	public static final String NAME = "chance_globe";
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final VoxelShape SHAPE;
 
@@ -66,11 +63,10 @@ public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterlogg
 		SHAPE = returnShape;
 	}
 
-	public ChanceGlobeBlock()
+	public ChanceGlobeBlock(Properties properties)
 	{
-		super(Block.Properties.of(Material.WOOD).strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD));
+		super(properties);
 
-		setRegistryName(ChanceGlobe.MODID + ":" + NAME);
 		registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
 	}
 
@@ -122,6 +118,6 @@ public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterlogg
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
 	{
-		return createTickerHelper(type, ChanceGlobe.teTypeGlobe, level.isClientSide ? ChanceGlobeBlockEntity::clientTick : ChanceGlobeBlockEntity::serverTick);
+		return createTickerHelper(type, ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), level.isClientSide ? ChanceGlobeBlockEntity::clientTick : ChanceGlobeBlockEntity::serverTick);
 	}
 }
