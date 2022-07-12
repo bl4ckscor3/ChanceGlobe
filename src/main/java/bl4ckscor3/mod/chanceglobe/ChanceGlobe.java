@@ -36,7 +36,7 @@ public class ChanceGlobe
 {
 	public static final String MODID = "chanceglobe";
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 	public static final RegistryObject<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.register("chance_globe", () -> new ChanceGlobeBlock(Block.Properties.of(Material.WOOD).strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD)));
 	public static final RegistryObject<BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("chance_globe", () -> BlockEntityType.Builder.<ChanceGlobeBlockEntity>of(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()).build(null));
