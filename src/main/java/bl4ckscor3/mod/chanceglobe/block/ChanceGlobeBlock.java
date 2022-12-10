@@ -24,15 +24,14 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock
-{
+public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final VoxelShape SHAPE;
 
-	static
-	{
+	static {
 		VoxelShape returnShape = Block.box(1, 0, 1, 15, 6, 15);
 		VoxelShape[] allShapes = {
+				//@formatter:off
 				Block.box(6, 6, 2, 10, 7, 14),
 				Block.box(2, 6, 6, 14, 7, 10),
 				Block.box(4, 6, 3, 12, 7, 13),
@@ -54,70 +53,61 @@ public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterlogg
 				Block.box(6, 11, 7, 10, 12, 9),
 				Block.box(7, 11, 6, 9, 12, 10),
 		};
+		//@formatter:on
 
-		for(VoxelShape shape : allShapes)
-		{
+		for (VoxelShape shape : allShapes) {
 			returnShape = Shapes.or(returnShape, shape);
 		}
 
 		SHAPE = returnShape;
 	}
 
-	public ChanceGlobeBlock(Properties properties)
-	{
+	public ChanceGlobeBlock(Properties properties) {
 		super(properties);
 
 		registerDefaultState(stateDefinition.any().setValue(WATERLOGGED, false));
 	}
 
 	@Override
-	public RenderShape getRenderShape(BlockState state)
-	{
+	public RenderShape getRenderShape(BlockState state) {
 		return RenderShape.MODEL;
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter source, BlockPos pos, CollisionContext ctx)
-	{
+	public VoxelShape getShape(BlockState state, BlockGetter source, BlockPos pos, CollisionContext ctx) {
 		return SHAPE;
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context)
-	{
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).getType() == Fluids.WATER);
 	}
 
 	@Override
-	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos facingPos)
-	{
-		if(state.getValue(WATERLOGGED))
+	public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor world, BlockPos currentPos, BlockPos facingPos) {
+		if (state.getValue(WATERLOGGED))
 			world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 
 		return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
 	}
 
 	@Override
-	public FluidState getFluidState(BlockState state)
-	{
+	public FluidState getFluidState(BlockState state) {
 		return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
 	}
 
 	@Override
-	protected void createBlockStateDefinition(Builder<Block, BlockState> builder)
-	{
+	protected void createBlockStateDefinition(Builder<Block, BlockState> builder) {
 		builder.add(WATERLOGGED);
 	}
 
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
-	{
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new ChanceGlobeBlockEntity(pos, state);
 	}
 
 	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type)
-	{
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
 		return createTickerHelper(type, ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), level.isClientSide ? ChanceGlobeBlockEntity::clientTick : ChanceGlobeBlockEntity::serverTick);
 	}
 }

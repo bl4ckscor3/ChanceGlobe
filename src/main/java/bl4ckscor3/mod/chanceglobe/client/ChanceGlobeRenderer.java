@@ -10,14 +10,12 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.BakedModel;
 
-public class ChanceGlobeTileEntityRenderer implements BlockEntityRenderer<ChanceGlobeBlockEntity>
-{
-	public ChanceGlobeTileEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
+public class ChanceGlobeRenderer implements BlockEntityRenderer<ChanceGlobeBlockEntity> {
+	public ChanceGlobeRenderer(BlockEntityRendererProvider.Context ctx) {}
 
 	@Override
-	public void render(ChanceGlobeBlockEntity te, float partialTicks, PoseStack stack, MultiBufferSource buffer, int p_225616_5_, int p_225616_6_)
-	{
-		if(te.getClientItem().isEmpty())
+	public void render(ChanceGlobeBlockEntity te, float partialTicks, PoseStack stack, MultiBufferSource buffer, int p_225616_5_, int p_225616_6_) {
+		if (te.getClientItem().isEmpty())
 			return;
 
 		BakedModel model = Minecraft.getInstance().getItemRenderer().getModel(te.getClientItem(), te.getLevel(), null, 0);

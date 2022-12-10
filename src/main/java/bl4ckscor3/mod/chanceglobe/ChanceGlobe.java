@@ -31,9 +31,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 @Mod(ChanceGlobe.MODID)
-@EventBusSubscriber(bus=Bus.MOD)
-public class ChanceGlobe
-{
+@EventBusSubscriber(bus = Bus.MOD)
+public class ChanceGlobe {
 	public static final String MODID = "chanceglobe";
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
@@ -43,8 +42,7 @@ public class ChanceGlobe
 	public static final RegistryObject<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.register("chance_globe", () -> new BlockItem(CHANCE_GLOBE.get(), new Item.Properties().tab(CreativeModeTab.TAB_MISC)));
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
-	public ChanceGlobe()
-	{
+	public ChanceGlobe() {
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		BLOCKS.register(modEventBus);
@@ -54,38 +52,32 @@ public class ChanceGlobe
 	}
 
 	@SubscribeEvent
-	public static void onInterModProcess(InterModProcessEvent event)
-	{
+	public static void onInterModProcess(InterModProcessEvent event) {
 		generateItemStacks();
 	}
 
 	@SubscribeEvent
-	public static void onModConfigReloading(ModConfigEvent.Reloading event)
-	{
-		if(event.getConfig().getModId().equals(ChanceGlobe.MODID))
+	public static void onModConfigReloading(ModConfigEvent.Reloading event) {
+		if (event.getConfig().getModId().equals(ChanceGlobe.MODID))
 			generateItemStacks();
 	}
 
-	private static void generateItemStacks()
-	{
+	private static void generateItemStacks() {
 		List<ItemStack> newBlocksAndItems = new ArrayList<>();
 		NonNullList<ItemStack> temp = NonNullList.create();
 
 		//collect all blocks as stacks, respecting filter configs
-		blockLoop: for(Block block : ForgeRegistries.BLOCKS)
-		{
-			if(Configuration.CONFIG.enableFilter.get())
-			{
+		blockLoop: for (Block block : ForgeRegistries.BLOCKS) {
+			if (Configuration.CONFIG.enableFilter.get()) {
 				ResourceLocation registryName = ForgeRegistries.BLOCKS.getKey(block);
 
-				switch(Configuration.CONFIG.filterMode.get())
-				{
+				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
-						if(Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) || Configuration.CONFIG.filteredBlocks.get().contains(registryName.toString()))
+						if (Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) || Configuration.CONFIG.filteredBlocks.get().contains(registryName.toString()))
 							continue blockLoop;
 						break;
 					case 1: //whitelist
-						if(!Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) && !Configuration.CONFIG.filteredBlocks.get().contains(registryName.toString()))
+						if (!Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) && !Configuration.CONFIG.filteredBlocks.get().contains(registryName.toString()))
 							continue blockLoop;
 						break;
 				}
@@ -95,23 +87,20 @@ public class ChanceGlobe
 		}
 
 		//collect all items as stacks, respecting filter configs
-		itemLoop: for(Item item : ForgeRegistries.ITEMS)
-		{
-			if(item instanceof BlockItem) //blocks were already added
+		itemLoop: for (Item item : ForgeRegistries.ITEMS) {
+			if (item instanceof BlockItem) //blocks were already added
 				continue;
 
-			if(Configuration.CONFIG.enableFilter.get())
-			{
+			if (Configuration.CONFIG.enableFilter.get()) {
 				ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(item);
 
-				switch(Configuration.CONFIG.filterMode.get())
-				{
+				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
-						if(Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) || Configuration.CONFIG.filteredItems.get().contains(registryName.toString()))
+						if (Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) || Configuration.CONFIG.filteredItems.get().contains(registryName.toString()))
 							continue itemLoop;
 						break;
 					case 1: //whitelist
-						if(!Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) && !Configuration.CONFIG.filteredItems.get().contains(registryName.toString()))
+						if (!Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) && !Configuration.CONFIG.filteredItems.get().contains(registryName.toString()))
 							continue itemLoop;
 						break;
 				}
@@ -121,14 +110,12 @@ public class ChanceGlobe
 		}
 
 		//add the previously collected stacks to the resulting list one by one, ignoring any duplicates on the way
-		outer: for(ItemStack stack : temp)
-		{
-			if(stack == null || stack.isEmpty())
+		outer: for (ItemStack stack : temp) {
+			if (stack == null || stack.isEmpty())
 				continue outer;
 
-			for(ItemStack bi : newBlocksAndItems)
-			{
-				if(bi == null || stack.sameItem(bi))
+			for (ItemStack bi : newBlocksAndItems) {
+				if (bi == null || stack.sameItem(bi))
 					continue outer;
 			}
 
