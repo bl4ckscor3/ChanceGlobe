@@ -1,5 +1,7 @@
 package bl4ckscor3.mod.chanceglobe.block;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
@@ -20,40 +22,48 @@ public class ChanceGlobeBlockEntity extends BlockEntity {
 	public double tickToDrop = secondsUntilDrop * 20;
 	public int ticksUntilDrop = 0;
 	public int ticksUntilChange = getNextChangeTick(ticksUntilDrop);
+	private final List<ItemStack> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobeBlockEntity(BlockPos pos, BlockState state) {
 		super(ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), pos, state);
 	}
 
-	public static void clientTick(Level level, BlockPos pos, BlockState state, ChanceGlobeBlockEntity te) {
-		if (ChanceGlobe.blocksAndItems.size() <= 0)
-			return;
-
-		if (te.ticksUntilChange == 0 || te.clientItem.isEmpty()) {
-			te.ticksUntilChange = te.getNextChangeTick(te.ticksUntilDrop);
-			te.clientItem = ChanceGlobe.blocksAndItems.get(random.nextInt(ChanceGlobe.blocksAndItems.size()));
-		}
-		else
-			te.ticksUntilChange--;
-
-		if (te.ticksUntilDrop != te.tickToDrop)
-			te.ticksUntilDrop++;
+	@Override
+	public void setLevel(Level level) {
+		super.setLevel(level);
+		blocksAndItems.clear();
+		blocksAndItems.addAll(ChanceGlobe.blocksAndItems.stream().filter(stack -> stack.getItem().requiredFeatures().isSubsetOf(level.enabledFeatures())).toList());
 	}
 
-	public static void serverTick(Level level, BlockPos pos, BlockState state, ChanceGlobeBlockEntity te) {
-		if (ChanceGlobe.blocksAndItems.size() <= 0)
+	public static void clientTick(Level level, BlockPos pos, BlockState state, ChanceGlobeBlockEntity be) {
+		if (be.blocksAndItems.size() <= 0)
 			return;
 
-		if (te.serverItem.isEmpty())
-			te.serverItem = ChanceGlobe.blocksAndItems.get(random.nextInt(ChanceGlobe.blocksAndItems.size()));
+		if (be.ticksUntilChange == 0 || be.clientItem.isEmpty()) {
+			be.ticksUntilChange = be.getNextChangeTick(be.ticksUntilDrop);
+			be.clientItem = be.blocksAndItems.get(random.nextInt(be.blocksAndItems.size()));
+		}
+		else
+			be.ticksUntilChange--;
 
-		if (te.ticksUntilDrop++ == te.tickToDrop) {
-			level.destroyBlock(te.worldPosition, false);
+		if (be.ticksUntilDrop != be.tickToDrop)
+			be.ticksUntilDrop++;
+	}
 
-			if (te.serverItem.getItem() instanceof BlockItem blockItem)
-				level.setBlockAndUpdate(te.worldPosition, blockItem.getBlock().defaultBlockState());
+	public static void serverTick(Level level, BlockPos pos, BlockState state, ChanceGlobeBlockEntity be) {
+		if (be.blocksAndItems.size() <= 0)
+			return;
+
+		if (be.serverItem.isEmpty())
+			be.serverItem = be.blocksAndItems.get(random.nextInt(be.blocksAndItems.size()));
+
+		if (be.ticksUntilDrop++ == be.tickToDrop) {
+			level.destroyBlock(be.worldPosition, false);
+
+			if (be.serverItem.getItem() instanceof BlockItem blockItem)
+				level.setBlockAndUpdate(be.worldPosition, blockItem.getBlock().defaultBlockState());
 			else
-				Block.popResource(level, te.worldPosition, te.serverItem);
+				Block.popResource(level, be.worldPosition, be.serverItem);
 		}
 	}
 

@@ -1,12 +1,12 @@
 {
 	"render_type": "minecraft:cutout_mipped",
 	"textures": {
-		"0": "chanceglobe:blocks/chance_globe_bottom",
-		"1": "chanceglobe:blocks/chance_globe_top",
-		"2": "chanceglobe:blocks/chance_globe_eldr",
-		"3": "chanceglobe:blocks/chance_globe_dler",
-		"4": "chanceglobe:blocks/glass",
-		"particle": "chanceglobe:blocks/chance_globe_eldr"
+		"0": "chanceglobe:block/chance_globe_bottom",
+		"1": "chanceglobe:block/chance_globe_top",
+		"2": "chanceglobe:block/chance_globe_eldr",
+		"3": "chanceglobe:block/chance_globe_dler",
+		"4": "chanceglobe:block/glass",
+		"particle": "chanceglobe:block/chance_globe_eldr"
 	},
 	"elements": [
 		{
