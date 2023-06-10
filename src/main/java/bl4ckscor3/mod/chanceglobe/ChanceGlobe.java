@@ -15,8 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.material.Material;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -38,7 +37,7 @@ public class ChanceGlobe {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-	public static final RegistryObject<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.register("chance_globe", () -> new ChanceGlobeBlock(Block.Properties.of(Material.WOOD).strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD)));
+	public static final RegistryObject<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.register("chance_globe", () -> new ChanceGlobeBlock(Block.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD)));
 	public static final RegistryObject<BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("chance_globe", () -> BlockEntityType.Builder.<ChanceGlobeBlockEntity>of(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()).build(null));
 	public static final RegistryObject<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.register("chance_globe", () -> new BlockItem(CHANCE_GLOBE.get(), new Item.Properties()));
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
@@ -53,8 +52,8 @@ public class ChanceGlobe {
 	}
 
 	@SubscribeEvent
-	public static void onCreativeModeTabBuildContents(CreativeModeTabEvent.BuildContents event) {
-		if (event.getTab() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+	public static void onCreativeModeTabBuildContents(BuildCreativeModeTabContentsEvent event) {
+		if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
 			event.accept(CHANCE_GLOBE_ITEM.get());
 	}
 
@@ -74,7 +73,8 @@ public class ChanceGlobe {
 		NonNullList<ItemStack> temp = NonNullList.create();
 
 		//collect all blocks as stacks, respecting filter configs
-		blockLoop: for (Block block : ForgeRegistries.BLOCKS) {
+		blockLoop:
+		for (Block block : ForgeRegistries.BLOCKS) {
 			if (Configuration.CONFIG.enableFilter.get()) {
 				ResourceLocation registryName = ForgeRegistries.BLOCKS.getKey(block);
 
@@ -94,7 +94,8 @@ public class ChanceGlobe {
 		}
 
 		//collect all items as stacks, respecting filter configs
-		itemLoop: for (Item item : ForgeRegistries.ITEMS) {
+		itemLoop:
+		for (Item item : ForgeRegistries.ITEMS) {
 			if (item instanceof BlockItem) //blocks were already added
 				continue;
 
@@ -117,12 +118,13 @@ public class ChanceGlobe {
 		}
 
 		//add the previously collected stacks to the resulting list one by one, ignoring any duplicates on the way
-		outer: for (ItemStack stack : temp) {
+		outer:
+		for (ItemStack stack : temp) {
 			if (stack == null || stack.isEmpty())
 				continue outer;
 
 			for (ItemStack bi : newBlocksAndItems) {
-				if (bi == null || stack.sameItem(bi))
+				if (bi == null || stack.is(bi.getItem()))
 					continue outer;
 			}
 
