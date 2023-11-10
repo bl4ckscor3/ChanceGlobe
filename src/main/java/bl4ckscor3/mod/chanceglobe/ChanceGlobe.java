@@ -1,9 +1,5 @@
 package bl4ckscor3.mod.chanceglobe;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlock;
 import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlockEntity;
 import net.minecraft.core.NonNullList;
@@ -24,11 +20,14 @@ import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.ForgeRegistries;
 import net.neoforged.neoforge.registries.RegistryObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Mod(ChanceGlobe.MODID)
 @EventBusSubscriber(bus = Bus.MOD)
@@ -42,9 +41,7 @@ public class ChanceGlobe {
 	public static final RegistryObject<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.register("chance_globe", () -> new BlockItem(CHANCE_GLOBE.get(), new Item.Properties()));
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
-	public ChanceGlobe() {
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
+	public ChanceGlobe(IEventBus modEventBus) {
 		BLOCKS.register(modEventBus);
 		BLOCK_ENTITY_TYPES.register(modEventBus);
 		ITEMS.register(modEventBus);

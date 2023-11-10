@@ -1,9 +1,5 @@
 package bl4ckscor3.mod.chanceglobe.block;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import bl4ckscor3.mod.chanceglobe.Configuration;
 import net.minecraft.core.BlockPos;
@@ -13,6 +9,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class ChanceGlobeBlockEntity extends BlockEntity {
 	public static final Random random = new Random(System.currentTimeMillis());

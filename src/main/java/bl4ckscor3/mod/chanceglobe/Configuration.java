@@ -1,6 +1,6 @@
 package bl4ckscor3.mod.chanceglobe;
 
-import java.util.List;
+import com.google.common.collect.Lists;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.ModConfigSpec.BooleanValue;
 import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
@@ -8,7 +8,7 @@ import net.neoforged.neoforge.common.ModConfigSpec.DoubleValue;
 import net.neoforged.neoforge.common.ModConfigSpec.IntValue;
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.google.common.collect.Lists;
+import java.util.List;
 
 public class Configuration {
 	public static final ModConfigSpec CONFIG_SPEC;

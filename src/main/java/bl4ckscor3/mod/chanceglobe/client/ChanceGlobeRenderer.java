@@ -1,8 +1,7 @@
 package bl4ckscor3.mod.chanceglobe.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlockEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
