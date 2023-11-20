@@ -1,8 +1,14 @@
 package bl4ckscor3.mod.chanceglobe;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlock;
 import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlockEntity;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -21,24 +27,21 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.neoforge.registries.ForgeRegistries;
-import net.neoforged.neoforge.registries.RegistryObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Mod(ChanceGlobe.MODID)
 @EventBusSubscriber(bus = Bus.MOD)
 public class ChanceGlobe {
 	public static final String MODID = "chanceglobe";
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
-	public static final RegistryObject<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.register("chance_globe", () -> new ChanceGlobeBlock(Block.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD)));
-	public static final RegistryObject<BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("chance_globe", () -> BlockEntityType.Builder.<ChanceGlobeBlockEntity>of(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()).build(null));
-	public static final RegistryObject<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.register("chance_globe", () -> new BlockItem(CHANCE_GLOBE.get(), new Item.Properties()));
+	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
+	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
+	public static final DeferredBlock<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.register("chance_globe", () -> new ChanceGlobeBlock(Block.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD)));
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("chance_globe", () -> BlockEntityType.Builder.<ChanceGlobeBlockEntity>of(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()).build(null));
+	public static final DeferredItem<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.registerBlockItem("chance_globe", CHANCE_GLOBE);
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobe(IEventBus modEventBus) {
@@ -71,9 +74,9 @@ public class ChanceGlobe {
 
 		//collect all blocks as stacks, respecting filter configs
 		blockLoop:
-		for (Block block : ForgeRegistries.BLOCKS) {
+		for (Block block : BuiltInRegistries.BLOCK) {
 			if (Configuration.CONFIG.enableFilter.get()) {
-				ResourceLocation registryName = ForgeRegistries.BLOCKS.getKey(block);
+				ResourceLocation registryName = BuiltInRegistries.BLOCK.getKey(block);
 
 				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
@@ -92,12 +95,12 @@ public class ChanceGlobe {
 
 		//collect all items as stacks, respecting filter configs
 		itemLoop:
-		for (Item item : ForgeRegistries.ITEMS) {
+		for (Item item : BuiltInRegistries.ITEM) {
 			if (item instanceof BlockItem) //blocks were already added
 				continue;
 
 			if (Configuration.CONFIG.enableFilter.get()) {
-				ResourceLocation registryName = ForgeRegistries.ITEMS.getKey(item);
+				ResourceLocation registryName = BuiltInRegistries.ITEM.getKey(item);
 
 				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
