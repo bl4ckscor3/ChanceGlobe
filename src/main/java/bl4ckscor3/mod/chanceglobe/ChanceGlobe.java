@@ -41,7 +41,7 @@ public class ChanceGlobe {
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
 	public static final DeferredBlock<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.register("chance_globe", () -> new ChanceGlobeBlock(Block.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD)));
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("chance_globe", () -> BlockEntityType.Builder.<ChanceGlobeBlockEntity>of(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()).build(null));
-	public static final DeferredItem<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.registerBlockItem("chance_globe", CHANCE_GLOBE);
+	public static final DeferredItem<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.registerSimpleBlockItem("chance_globe", CHANCE_GLOBE);
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobe(IEventBus modEventBus) {
