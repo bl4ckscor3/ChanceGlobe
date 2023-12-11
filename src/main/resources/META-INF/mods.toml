@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[1,)"
-license="MIT https://github.com/bl4ckscor3/ChanceGlobe/blob/1.20.2/LICENSE"
+license="MIT https://github.com/bl4ckscor3/ChanceGlobe/blob/1.20.4/LICENSE"
 
 [[mods]]
 	modId="chanceglobe"
@@ -14,13 +14,13 @@ license="MIT https://github.com/bl4ckscor3/ChanceGlobe/blob/1.20.2/LICENSE"
 [[dependencies.chanceglobe]]
     modId="neoforge"
     mandatory=true
-    versionRange="[20.2.64-beta,)"
+    versionRange="[20.3,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.chanceglobe]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20.2,1.21)"
+    versionRange="[1.20.3,1.21)"
     ordering="NONE"
     side="BOTH"

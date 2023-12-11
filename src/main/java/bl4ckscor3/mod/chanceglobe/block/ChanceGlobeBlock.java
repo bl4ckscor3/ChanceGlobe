@@ -1,5 +1,7 @@
 package bl4ckscor3.mod.chanceglobe.block;
 
+import com.mojang.serialization.MapCodec;
+
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -109,5 +111,10 @@ public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterlogg
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
 		return createTickerHelper(type, ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), level.isClientSide ? ChanceGlobeBlockEntity::clientTick : ChanceGlobeBlockEntity::serverTick);
+	}
+
+	@Override
+	protected MapCodec<? extends BaseEntityBlock> codec() {
+		return null;
 	}
 }
