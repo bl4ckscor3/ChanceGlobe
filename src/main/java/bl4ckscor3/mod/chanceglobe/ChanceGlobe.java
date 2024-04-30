@@ -19,10 +19,10 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
-import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.fml.event.lifecycle.InterModProcessEvent;
@@ -44,11 +44,11 @@ public class ChanceGlobe {
 	public static final DeferredItem<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.registerSimpleBlockItem("chance_globe", CHANCE_GLOBE);
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
 
-	public ChanceGlobe(IEventBus modEventBus) {
+	public ChanceGlobe(IEventBus modEventBus, ModContainer modContainer) {
 		BLOCKS.register(modEventBus);
 		BLOCK_ENTITY_TYPES.register(modEventBus);
 		ITEMS.register(modEventBus);
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
+		modContainer.registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
 	}
 
 	@SubscribeEvent

@@ -3,8 +3,8 @@ package bl4ckscor3.mod.chanceglobe.client;
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
-import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 @EventBusSubscriber(modid = ChanceGlobe.MODID, value = Dist.CLIENT, bus = Bus.MOD)
