@@ -9,7 +9,7 @@ version = '1.3.9'
 group = 'bl4ckscor3.mod.chanceglobe'
 
 base {
-	archivesName = 'chanceglobe-1.21'
+	archivesName = 'chanceglobe-1.21.3'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -35,17 +35,17 @@ runs {
 
     server {
         workingDirectory project.file('run/server')
-        programArgument '-nogui'
+        argument '-nogui'
     }
 
 	data {
 		workingDirectory project.file('run/data')
-		programArguments.addAll '--mod', 'chanceglobe', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
+		arguments.addAll '--mod', 'chanceglobe', '--all', '--output', file('src/generated/resources/').getAbsolutePath()
 	}
 }
 
 dependencies {
-	implementation 'net.neoforged:neoforge:21.0.2-beta'
+	implementation 'net.neoforged:neoforge:21.3.3-beta'
 }
 
 tasks.named('jar', Jar).configure {

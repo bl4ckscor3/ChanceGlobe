@@ -2,21 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "D": {
-      "tag": "c:gems/diamond"
-    },
-    "E": {
-      "tag": "c:gems/emerald"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    },
-    "P": {
-      "tag": "minecraft:planks"
-    },
-    "R": {
-      "tag": "c:storage_blocks/redstone"
-    }
+    "D": "#c:gems/diamond",
+    "E": "#c:gems/emerald",
+    "G": "#c:glass_blocks",
+    "P": "#minecraft:planks",
+    "R": "#c:storage_blocks/redstone"
   },
   "pattern": [
     "GGG",
