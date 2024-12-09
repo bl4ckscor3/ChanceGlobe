@@ -1,0 +1,6 @@
+{
+	"model": {
+		"type": "minecraft:model",
+		"model": "chanceglobe:block/chance_globe"
+	}
+}
