@@ -112,7 +112,7 @@ public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterlogg
 
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-		return createTickerHelper(type, ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), level.isClientSide ? ChanceGlobeBlockEntity::clientTick : ChanceGlobeBlockEntity::serverTick);
+		return createTickerHelper(type, ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), level.isClientSide() ? ChanceGlobeBlockEntity::clientTick : ChanceGlobeBlockEntity::serverTick);
 	}
 
 	@Override

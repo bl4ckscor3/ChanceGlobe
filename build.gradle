@@ -2,14 +2,14 @@ plugins {
 	id 'java-library'
 	id 'eclipse'
 	id 'idea'
-	id 'net.neoforged.moddev' version '2.0.96'
+	id 'net.neoforged.moddev' version '2.0.115'
 }
 
 version = '1.4'
 group = 'bl4ckscor3.mod.chanceglobe'
 
 base {
-	archivesName = 'chanceglobe-1.21.7'
+	archivesName = 'chanceglobe-1.21.10'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -24,7 +24,7 @@ sourceSets.main.resources {
 }
 
 neoForge {
-	version = "21.7.23-beta"
+	version = "21.10.11-beta"
 
 	runs {
 		configureEach {
