@@ -9,7 +9,7 @@ import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlockEntity;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
@@ -39,7 +39,7 @@ public class ChanceGlobe {
 	public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MODID);
 	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-	public static final DeferredBlock<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.registerBlock("chance_globe", ChanceGlobeBlock::new, BlockBehaviour.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD));
+	public static final DeferredBlock<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.registerBlock("chance_globe", ChanceGlobeBlock::new, () -> BlockBehaviour.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD));
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("chance_globe", () -> new BlockEntityType<>(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()));
 	public static final DeferredItem<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.registerSimpleBlockItem("chance_globe", CHANCE_GLOBE);
 	public static List<ItemStack> blocksAndItems = new ArrayList<>();
@@ -76,7 +76,7 @@ public class ChanceGlobe {
 		blockLoop:
 		for (Block block : BuiltInRegistries.BLOCK) {
 			if (Configuration.CONFIG.enableFilter.get()) {
-				ResourceLocation registryName = BuiltInRegistries.BLOCK.getKey(block);
+				Identifier registryName = BuiltInRegistries.BLOCK.getKey(block);
 
 				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
@@ -100,7 +100,7 @@ public class ChanceGlobe {
 				continue;
 
 			if (Configuration.CONFIG.enableFilter.get()) {
-				ResourceLocation registryName = BuiltInRegistries.ITEM.getKey(item);
+				Identifier registryName = BuiltInRegistries.ITEM.getKey(item);
 
 				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
