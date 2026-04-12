@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": [
+            { "model": "chanceglobe:block/chance_globe" }
+        ]
+    }
+}
