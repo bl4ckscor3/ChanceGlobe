@@ -5,6 +5,7 @@ import bl4ckscor3.mod.chanceglobe.Configuration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -16,13 +17,13 @@ import java.util.Random;
 
 public class ChanceGlobeBlockEntity extends BlockEntity {
 	public static final Random random = new Random(System.currentTimeMillis());
-	private ItemStack clientItem = ItemStack.EMPTY; //just for display purposes
-	public ItemStack serverItem = ItemStack.EMPTY; //will be dropped or placed
+	private ItemStackTemplate clientItem = null; //just for display purposes
+	public ItemStackTemplate serverItem = null; //will be dropped or placed
 	public final double secondsUntilDrop = 10 * Configuration.CONFIG.durationMultiplier.get();
 	public double tickToDrop = secondsUntilDrop * 20;
 	public int ticksUntilDrop = 0;
 	public int ticksUntilChange = getNextChangeTick(ticksUntilDrop);
-	private final List<ItemStack> blocksAndItems = new ArrayList<>();
+	private final List<ItemStackTemplate> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobeBlockEntity(BlockPos pos, BlockState state) {
 		super(ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), pos, state);
@@ -32,14 +33,14 @@ public class ChanceGlobeBlockEntity extends BlockEntity {
 	public void setLevel(Level level) {
 		super.setLevel(level);
 		blocksAndItems.clear();
-		blocksAndItems.addAll(ChanceGlobe.blocksAndItems.stream().filter(stack -> stack.getItem().requiredFeatures().isSubsetOf(level.enabledFeatures())).toList());
+		blocksAndItems.addAll(ChanceGlobe.blocksAndItems.stream().filter(stack -> stack.item().value().requiredFeatures().isSubsetOf(level.enabledFeatures())).toList());
 	}
 
 	public static void clientTick(Level level, BlockPos pos, BlockState state, ChanceGlobeBlockEntity be) {
 		if (be.blocksAndItems.size() <= 0)
 			return;
 
-		if (be.ticksUntilChange == 0 || be.clientItem.isEmpty()) {
+		if (be.ticksUntilChange == 0 || be.clientItem == null) {
 			be.ticksUntilChange = be.getNextChangeTick(be.ticksUntilDrop);
 			be.clientItem = be.blocksAndItems.get(random.nextInt(be.blocksAndItems.size()));
 		}
@@ -54,16 +55,17 @@ public class ChanceGlobeBlockEntity extends BlockEntity {
 		if (be.blocksAndItems.size() <= 0)
 			return;
 
-		if (be.serverItem.isEmpty())
+		if (be.serverItem == null)
 			be.serverItem = be.blocksAndItems.get(random.nextInt(be.blocksAndItems.size()));
 
 		if (be.ticksUntilDrop++ == be.tickToDrop) {
 			level.destroyBlock(be.worldPosition, false);
 
-			if (be.serverItem.getItem() instanceof BlockItem blockItem)
+			ItemStack stack = be.serverItem.create();
+			if (stack.getItem() instanceof BlockItem blockItem)
 				level.setBlockAndUpdate(be.worldPosition, blockItem.getBlock().defaultBlockState());
 			else
-				Block.popResource(level, be.worldPosition, be.serverItem);
+				Block.popResource(level, be.worldPosition, stack);
 		}
 	}
 
@@ -73,7 +75,10 @@ public class ChanceGlobeBlockEntity extends BlockEntity {
 	 * @return The currently displayed item as a 1-sized ItemStack
 	 */
 	public ItemStack getClientItem() {
-		return clientItem;
+		if (clientItem == null)
+			return ItemStack.EMPTY;
+		else
+			return clientItem.create();
 	}
 
 	/**
@@ -84,6 +89,6 @@ public class ChanceGlobeBlockEntity extends BlockEntity {
 	 * @return The amount of ticks until the next time the item in the display will change
 	 */
 	public int getNextChangeTick(int remainingTicksToDrop) {
-		return (int) (Math.pow(remainingTicksToDrop / 20 - secondsUntilDrop, 2) / 2.5); //a parabola with f(x)=0 for x=secondsUntilDrop*20
+		return (int) (Math.pow(remainingTicksToDrop / 20.0 - secondsUntilDrop, 2) / 2.5); //a parabola with f(x)=0 for x=secondsUntilDrop*20
 	}
 }

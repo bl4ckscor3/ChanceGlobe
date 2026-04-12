@@ -13,7 +13,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -42,7 +43,7 @@ public class ChanceGlobe {
 	public static final DeferredBlock<ChanceGlobeBlock> CHANCE_GLOBE = BLOCKS.registerBlock("chance_globe", ChanceGlobeBlock::new, () -> BlockBehaviour.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD));
 	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("chance_globe", () -> new BlockEntityType<>(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()));
 	public static final DeferredItem<BlockItem> CHANCE_GLOBE_ITEM = ITEMS.registerSimpleBlockItem("chance_globe", CHANCE_GLOBE);
-	public static List<ItemStack> blocksAndItems = new ArrayList<>();
+	public static List<ItemStackTemplate> blocksAndItems = new ArrayList<>();
 
 	public ChanceGlobe(IEventBus modEventBus, ModContainer modContainer) {
 		BLOCKS.register(modEventBus);
@@ -69,8 +70,8 @@ public class ChanceGlobe {
 	}
 
 	private static void generateItemStacks() {
-		List<ItemStack> newBlocksAndItems = new ArrayList<>();
-		NonNullList<ItemStack> temp = NonNullList.create();
+		List<ItemStackTemplate> newBlocksAndItems = new ArrayList<>();
+		NonNullList<ItemStackTemplate> temp = NonNullList.create();
 
 		//collect all blocks as stacks, respecting filter configs
 		blockLoop:
@@ -90,7 +91,9 @@ public class ChanceGlobe {
 				}
 			}
 
-			temp.add(new ItemStack(block));
+			Item blockAsItem = block.asItem();
+			if (blockAsItem != Items.AIR)
+				temp.add(new ItemStackTemplate(blockAsItem));
 		}
 
 		//collect all items as stacks, respecting filter configs
@@ -114,17 +117,18 @@ public class ChanceGlobe {
 				}
 			}
 
-			temp.add(new ItemStack(item));
+			if (item != Items.AIR)
+				temp.add(new ItemStackTemplate(item));
 		}
 
 		//add the previously collected stacks to the resulting list one by one, ignoring any duplicates on the way
 		outer:
-		for (ItemStack stack : temp) {
-			if (stack == null || stack.isEmpty())
+		for (ItemStackTemplate stack : temp) {
+			if (stack == null)
 				continue outer;
 
-			for (ItemStack bi : newBlocksAndItems) {
-				if (bi == null || stack.is(bi.getItem()))
+			for (ItemStackTemplate bi : newBlocksAndItems) {
+				if (bi == null || stack.is(bi.item()))
 					continue outer;
 			}
 
@@ -133,6 +137,6 @@ public class ChanceGlobe {
 
 		Collections.shuffle(newBlocksAndItems); //randomize list
 		blocksAndItems.clear(); //clear old collected stacks
-		blocksAndItems.addAll(newBlocksAndItems); //add all newly collected stacks to the list the tile entity pulls from
+		blocksAndItems.addAll(newBlocksAndItems); //add all newly collected stacks to the list the block entity pulls from
 	}
 }
