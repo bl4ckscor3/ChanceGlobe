@@ -3,6 +3,7 @@ package bl4ckscor3.mod.chanceglobe;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import bl4ckscor3.mod.chanceglobe.lib.Platform;
 import fuzs.forgeconfigapiport.fabric.api.v5.ConfigRegistry;
 import fuzs.forgeconfigapiport.fabric.api.v5.ModConfigEvents;
 import net.fabricmc.api.ModInitializer;

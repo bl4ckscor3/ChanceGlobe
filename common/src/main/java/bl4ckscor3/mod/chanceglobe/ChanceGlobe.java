@@ -9,6 +9,9 @@ import com.google.common.base.Suppliers;
 
 import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlock;
 import bl4ckscor3.mod.chanceglobe.block.ChanceGlobeBlockEntity;
+import bl4ckscor3.mod.chanceglobe.lib.Platform;
+import bl4ckscor3.mod.chanceglobe.lib.RegisteredBlock;
+import bl4ckscor3.mod.chanceglobe.lib.RegisteredItem;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -25,9 +28,9 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 public class ChanceGlobe {
 	public static final String MODID = "chanceglobe";
 	private static Platform platform;
-	public static final RegistryObject<ChanceGlobeBlock> CHANCE_GLOBE = RegistryObject.block("chance_globe", ChanceGlobeBlock::new, () -> BlockBehaviour.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD));
+	public static final RegisteredBlock<ChanceGlobeBlock> CHANCE_GLOBE = RegisteredBlock.create("chance_globe", ChanceGlobeBlock::new, () -> BlockBehaviour.Properties.of().strength(5.0F, 10.0F).lightLevel(state -> 3).sound(SoundType.WOOD));
 	public static final Supplier<BlockEntityType<ChanceGlobeBlockEntity>> CHANCE_GLOBE_BLOCK_ENTITY = Suppliers.memoize(() -> platform.createBlockEntity(ChanceGlobeBlockEntity::new, CHANCE_GLOBE.get()));
-	public static final RegistryObject<BlockItem> CHANCE_GLOBE_ITEM = RegistryObject.item("chance_globe", p -> new BlockItem(CHANCE_GLOBE.get(), p), () -> new Item.Properties().useBlockDescriptionPrefix());
+	public static final RegisteredItem<BlockItem> CHANCE_GLOBE_ITEM = RegisteredItem.blockItem(CHANCE_GLOBE, Item.Properties::new);
 	public static List<ItemStackTemplate> blocksAndItems = new ArrayList<>();
 
 	public synchronized static void initialize(Platform platform) {
@@ -54,7 +57,6 @@ public class ChanceGlobe {
 		NonNullList<ItemStackTemplate> temp = NonNullList.create();
 
 		//collect all blocks as stacks, respecting filter configs
-		blockLoop:
 		for (Block block : BuiltInRegistries.BLOCK) {
 			if (Configuration.CONFIG.enableFilter.get()) {
 				Identifier registryName = BuiltInRegistries.BLOCK.getKey(block);
@@ -62,11 +64,11 @@ public class ChanceGlobe {
 				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
 						if (Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) || Configuration.CONFIG.filteredBlocks.get().contains(registryName.toString()))
-							continue blockLoop;
+							continue;
 						break;
 					case 1: //whitelist
 						if (!Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) && !Configuration.CONFIG.filteredBlocks.get().contains(registryName.toString()))
-							continue blockLoop;
+							continue;
 						break;
 				}
 			}
@@ -77,7 +79,6 @@ public class ChanceGlobe {
 		}
 
 		//collect all items as stacks, respecting filter configs
-		itemLoop:
 		for (Item item : BuiltInRegistries.ITEM) {
 			if (item instanceof BlockItem) //blocks were already added
 				continue;
@@ -88,11 +89,11 @@ public class ChanceGlobe {
 				switch (Configuration.CONFIG.filterMode.get()) {
 					case 0: //blacklist
 						if (Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) || Configuration.CONFIG.filteredItems.get().contains(registryName.toString()))
-							continue itemLoop;
+							continue;
 						break;
 					case 1: //whitelist
 						if (!Configuration.CONFIG.filteredMods.get().contains(registryName.getNamespace()) && !Configuration.CONFIG.filteredItems.get().contains(registryName.toString()))
-							continue itemLoop;
+							continue;
 						break;
 				}
 			}
@@ -105,7 +106,7 @@ public class ChanceGlobe {
 		outer:
 		for (ItemStackTemplate stack : temp) {
 			if (stack == null)
-				continue outer;
+				continue;
 
 			for (ItemStackTemplate bi : newBlocksAndItems) {
 				if (bi == null || stack.is(bi.item()))

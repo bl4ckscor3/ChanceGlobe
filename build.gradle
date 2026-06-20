@@ -11,6 +11,10 @@ subprojects {
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
 
+    sourceSets.main.resources {
+        srcDir 'src/generated/resources' //include generated files
+    }
+
     repositories {
         maven {
             url "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
@@ -76,6 +80,7 @@ subprojects {
         }
 
         inputs.properties(expandProps)
+        exclude ".cache"
     }
 }
 
