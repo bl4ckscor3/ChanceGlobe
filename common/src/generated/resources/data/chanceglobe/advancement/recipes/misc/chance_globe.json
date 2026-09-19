@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "chanceglobe:chance_globe"
+        "recipes": "chanceglobe:chance_globe"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

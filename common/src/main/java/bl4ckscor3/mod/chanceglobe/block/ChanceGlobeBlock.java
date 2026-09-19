@@ -1,7 +1,5 @@
 package bl4ckscor3.mod.chanceglobe.block;
 
-import com.mojang.serialization.MapCodec;
-
 import bl4ckscor3.mod.chanceglobe.ChanceGlobe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +33,7 @@ public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterlogg
 	static {
 		VoxelShape returnShape = Block.box(1, 0, 1, 15, 6, 15);
 		VoxelShape[] allShapes = {
-				//@formatter:off
+			//@formatter:off
 				Block.box(6, 6, 2, 10, 7, 14),
 				Block.box(2, 6, 6, 14, 7, 10),
 				Block.box(4, 6, 3, 12, 7, 13),
@@ -113,10 +111,5 @@ public class ChanceGlobeBlock extends BaseEntityBlock implements SimpleWaterlogg
 	@Override
 	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
 		return createTickerHelper(type, ChanceGlobe.CHANCE_GLOBE_BLOCK_ENTITY.get(), level.isClientSide() ? ChanceGlobeBlockEntity::clientTick : ChanceGlobeBlockEntity::serverTick);
-	}
-
-	@Override
-	protected MapCodec<? extends BaseEntityBlock> codec() {
-		return null;
 	}
 }

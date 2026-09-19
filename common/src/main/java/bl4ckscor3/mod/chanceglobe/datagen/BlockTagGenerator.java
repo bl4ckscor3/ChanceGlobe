@@ -16,5 +16,6 @@ public class BlockTagGenerator extends VanillaBlockTagsProvider {
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
 		tag(BlockTags.MINEABLE_WITH_AXE).add(ChanceGlobe.CHANCE_GLOBE.key());
+		tag(BlockTags.BLOCKS_MOTION_NO_LEAVES).add(ChanceGlobe.CHANCE_GLOBE.key());
 	}
 }
