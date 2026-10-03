@@ -31,7 +31,7 @@ public class NeoEntrypoint implements Platform {
 	public NeoEntrypoint(ModContainer modContainer, IEventBus modBus) {
 		this.modBus = modBus;
 		ChanceGlobe.initialize(this);
-		modContainer.registerConfig(ModConfig.Type.COMMON, Configuration.CONFIG_SPEC);
+		modContainer.registerConfig(ModConfig.Type.LOCAL, Configuration.CONFIG_SPEC);
 	}
 
 	@Override
